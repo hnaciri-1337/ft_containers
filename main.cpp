@@ -1,0 +1,229 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
+/*   Updated: 2022/11/17 16:14:25 by hnaciri-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <vector>
+#include <iostream>
+#include "includes/vector.hpp"
+#include "includes/iterator.hpp"
+
+template<class T>
+void	ft_print_vector(ft::vector<T> &_vec)
+{
+	std::cout << "[";
+	for (int i = 0; i < _vec.size() - 1; i++)
+		std::cout << _vec[i] << ",";
+	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
+}
+
+template<class T>
+void	std_print_vector(std::vector<T> &_vec)
+{
+	std::cout << "[";
+	for (int i = 0; i < _vec.size() - 1; i++)
+		std::cout << _vec[i] << ",";
+	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
+}
+
+void _print(const int& x)
+{
+    std::cout << x << '\n';
+}
+
+int	main()
+{
+	// {
+	// 	ft::vector<int>		ft_vec;
+	// 	std::vector<int>	std_vec;
+
+	// 	for(int i = 0; i < 10; i++)
+	// 	{
+	// 		int	_a = rand() % 100;
+	// 		ft_vec.push_back(_a);
+	// 		std_vec.push_back(_a);
+	// 	}
+	// 	std::cout << std_vec.size() << "|" << std_vec.capacity() << std::endl;
+	// 	std_print_vector(std_vec);
+	// 	std::cout << ft_vec.size() << "|" << ft_vec.capacity() << std::endl;
+	// 	ft_print_vector(ft_vec);
+	// 	std_vec.resize(18, -8748);
+	// 	ft_vec.resize(18, -8748);
+	// 	std_vec.shrink_to_fit();
+	// 	ft_vec.shrink_to_fit();
+	// 	std::cout << "--------------------" << std::endl;
+	// 	std::cout << std_vec.size() << "|" << std_vec.capacity() << std::endl;
+	// 	std_print_vector(std_vec);
+	// 	std::cout << ft_vec.size() << "|" << ft_vec.capacity() << std::endl;
+	// 	ft_print_vector(ft_vec);
+	// }
+	// std::cout << "______________________________________________" << std::endl;
+	// {
+	// 	std::vector<int>	_vec1(21, 3);
+	// 	ft::vector<int>		_vec2(21, 3);
+
+	// 	std_print_vector(_vec1);
+	// 	ft_print_vector(_vec2);
+	// 	_vec1.assign(17, 1);
+	// 	_vec2.assign(17, 1);
+	// 	std::cout << _vec1.capacity() << " | " << _vec1.size() << std::endl;
+	// 	std_print_vector(_vec1);
+	// 	std::cout << _vec2.capacity() << " | " << _vec2.size() << std::endl;
+	// 	ft_print_vector(_vec2);
+	// }
+	// std::cout << "______________________________________________" << std::endl;
+	// {
+	// 	std::vector<int>	_vec1;
+	// 	ft::vector<int>		_vec2;
+
+	// 	for(int i = 0; i < 7; i++)
+	// 	{
+	// 		int	_a = rand() % 100;
+	// 		_vec1.push_back(_a);
+	// 		_vec2.push_back(_a);
+	// 	}
+	// 	std::cout << "size : " << _vec1.size() << "| capacity : " << _vec1.capacity() << std::endl;
+	// 	std_print_vector(_vec1);
+	// 	std::vector<int>::iterator _it = _vec1.insert(_vec1.begin() + 3, 7, 9);
+	// 	std::cout << "size : " << _vec1.size() << "| capacity : " << _vec1.capacity() << std::endl;
+	// 	std_print_vector(_vec1);
+	// 	std::cout << *_it << std::endl;
+	// 	std::cout << "--------------------" << std::endl;
+	// 	std::cout << "size : " << _vec2.size() << "| capacity : " << _vec2.capacity() << std::endl;
+	// 	ft_print_vector(_vec2);
+	// 	ft::vector<int>::iterator __it = _vec2.insert(_vec2.begin() + 3, 7, 9);
+	// 	std::cout << "size : " << _vec2.size() << "| capacity : " << _vec2.capacity() << std::endl;
+	// 	ft_print_vector(_vec2);
+	// 	std::cout << *__it << std::endl;
+	// }
+	// {
+	// 	std::vector<int>	_vec1, _vec2;
+	// 	ft::vector<int>		_vec3, _vec4;
+
+	// 	for (int i = 0; i < 10; i++)
+	// 	{
+	// 		int	a = rand() % 100;
+
+	// 		_vec1.push_back(a);
+	// 		_vec3.push_back(a);
+	// 	}
+	// 	for (int i = 0; i < 10; i++)
+	// 	{
+	// 		int	a = rand() % 100;
+
+	// 		_vec2.push_back(a);
+	// 		_vec4.push_back(a);
+	// 	}
+	// 	std_print_vector(_vec1);
+	// 	ft_print_vector(_vec3);
+	// 	std::cout << "-----------------------" << std::endl;
+	// 	std_print_vector(_vec2);
+	// 	ft_print_vector(_vec4);
+	// 	std::cout << "-----------------------" << std::endl;
+	// 	_vec1.insert(_vec1.begin() + 3, _vec2.begin() + 2 , _vec2.end() - 3);
+	// 	_vec3.insert(_vec3.begin() + 3, _vec4.begin() + 2 , _vec4.end() - 3);
+	// 	std_print_vector(_vec1);
+	// 	ft_print_vector(_vec3);
+	// }
+	// {
+	// 	std::vector<int>	_vec;
+
+	// 	_vec.insert(_vec.begin(), 8, 64);
+	// 	std::vector<int>::iterator	_it = _vec.insert(_vec.begin() + 2, 0, 51);
+	// 	//std::cout << _it[-1] << std::endl;
+	// 	// for (int i = 1; i < 10; i++)
+	// 	// 	_vec.insert(_vec.end() - rand() % 10, rand() % 10, i);
+	// 	std_print_vector(_vec);
+	// }
+	// {
+	// 	ft::vector<std::string>	_vec;
+
+	// 	std::string s_string[32] =
+	// 	{                                                                   \
+	// 		"QExoqp0nICr0sXsHqty2", "naax9QcpJhvaL7DezsNQ", "25ZTtB6wbptfbxM8AvHB",                    \
+	// 		"tShYNtc0MkdjqLrOatgz", "7Z3kf1Qec0NnsLSEpbOt", "WhkSNrKJC966fvjZ2Or1",                    \
+	// 		"8vlxlFRRgW7yYj4GO7dt", "5sq1aoT8zP0HaHj3nFOK", "61Dv31GYZhkgjKCErpng",                    \
+	// 		"l0IIcWWHhOcPzoxEamQM", "bE1RYclskwXlhCm46YFs", "kXeoi5qz94JYPqSDTs79",                    \
+	// 		"TFsQP1dz8VVos9KzUpY0", "b3wYQR7An193gjgYuRj3", "xSmyNsnSJ47jLqrvbpyr",                    \
+	// 		"guAIP2Wq43Gf8VhHsyu5", "yT6c2loPebHovnq9BQog", "3qvU1xcVm2g1DKFDlqh4",                    \
+	// 		"L0q8RR9P41VD4sVjdnWl", "YdjESsIZM4b1oGQPjpBe", "l1ZVQbWKw7brHUSimJgq",                    \
+	// 		"xdn0cf4vqRzpfXWtl10G", "lYnZvpqaV0s8DowMZwzV", "8P1cyKrwJNLoJyvLjYqO",                    \
+	// 		"4MhOXNbAX23CEijO5cRT", "tHe3miAwCOVQbuoLaEP2", "l6uNLsc8fiLl3eWoG6j6",                    \
+	// 		"477xt6l0lph9ALQdr4HX", "D9UJNe4s8YF02LhrwOdl", "dLCisBNOdE8yugntu6cj",                    \
+	// 		"YvY4aQFHgAuagn4dFLO1", "eGR6Dtv7LW75qlV5Fkik"                                             \
+    // 	};
+	// 	_vec.insert(_vec.begin(), s_string, s_string + 32);
+	// 	ft_print_vector(_vec);
+	// }
+	// {
+	// 	ft::vector<int> foo (3,100);   // three ints with a value of 100
+	// 	ft::vector<int> bar (5,200);   // five ints with a value of 200
+
+	// 	foo.swap(bar);
+
+	// 	std::cout << "foo contains:";
+	// 	ft_print_vector(foo);
+	// 	std::cout << "bar contains:";
+	// 	ft_print_vector(bar);
+	// }
+	// {
+	// 	{
+	// 		std::cout << "char : " << std::vector<char>().max_size() << std::endl;
+	// 		std::cout << "char : " << ft::vector<char>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "unsigned char : " << std::vector<unsigned char>().max_size() << std::endl;
+	// 		std::cout << "unsigned char : " << ft::vector<unsigned char>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "int : " << std::vector<int>().max_size() << std::endl;
+	// 		std::cout << "int : " << ft::vector<int>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "unsigned int : " << std::vector<unsigned int>().max_size() << std::endl;
+	// 		std::cout << "unsigned int : " << ft::vector<unsigned int>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "std::string : " << std::vector<std::string>().max_size() << std::endl;
+	// 		std::cout << "std::string : " << ft::vector<std::string>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "long : " << std::vector<long>().max_size() << std::endl;
+	// 		std::cout << "long : " << ft::vector<long>().max_size() << std::endl;
+	// 	}
+	// 	{
+	// 		std::cout << "unsigned long long : " << std::vector<unsigned long long>().max_size() << std::endl;
+	// 		std::cout << "unsigned long long : " << ft::vector<unsigned long long>().max_size() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	ft::vector<int> v(5, 1);
+	// 	v.insert(v.begin(), 5, 2);
+    //     std::for_each(v.rbegin(), v.rend(), _print);
+	// }
+	// std::cout << "++++++++++++++++++++++++++++\n";
+	// {
+	// 	std::vector<int> v(5, 1);
+	// 	v.insert(v.begin(), 5, 2);
+    //     std::for_each(v.rbegin(), v.rend(), _print);
+	// }
+	// while (1)
+	// 	;
+	{
+		ft::vector<int>					_vec;
+		ft::vector<int>::iterator			_it;
+		
+
+		for (int i = 0; i < 10; i++)
+			_vec.push_back(rand() % 100);
+		_it = _vec.begin();
+		ft::vector<int>::reverse_iterator	_rit(_it);
+	}
+}
