@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 18:33:12 by hnaciri-          #+#    #+#             */
-/*   Updated: 2022/11/14 16:43:15 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:04:52 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace	ft
 					_allocator.construct(_array + i, val);
 			}
 			template <class InputIterator>
-            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()) : _allocator(alloc)
+            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()) : _allocator(alloc)
             {
 				vector<value_type>	_vec;
 
@@ -263,7 +263,7 @@ namespace	ft
 			}
 			// | MODIFIERS |
 			template <class InputIterator>
-			void					assign(InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
+			void					assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
 			{
 				vector<value_type>	_vec;
 				if (_array)
@@ -353,7 +353,7 @@ namespace	ft
 				return (begin() + pos);
 			}
 			template <class InputIterator>
-			iterator				insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
+			iterator				insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
 			{
 				size_type			pos;
 				iterator			it;
@@ -490,6 +490,4 @@ namespace	ft
 	}
 }
 
-// 4 7 8 5 9 1 6 0
-// 4 7 8 3 5 9 1 6
 #endif

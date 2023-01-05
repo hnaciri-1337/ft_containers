@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 12:50:42 by hnaciri-          #+#    #+#             */
-/*   Updated: 2022/11/17 16:16:39 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/03 14:33:22 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace	ft
 		// Constructor & Destructor
 	  	reverse_iterator() : __i(nullptr) {}
 		reverse_iterator(pointer ptr) : __i(ptr) {}
-		reverse_iterator(iterator_type _it) : __i(_it.base()) {}
+		reverse_iterator(iterator_type _it) : __i(_it) {}
 		template <class Iter>
 		reverse_iterator (const reverse_iterator<Iter>& it) : __i(it.base()) {}
 		reverse_iterator(reverse_iterator const & src){*this = src;}
@@ -47,26 +47,30 @@ namespace	ft
 		// Operators
 		iterator_type	base() const
 		{
-			return (this->__i);
+			return (__i);
+		}
+		reference operator*()
+		{
+			return(*__i);
 		}
 		reference operator*() const
 		{
-			return( *(this->__i));
+			return(*__i);
 		}
 		reverse_iterator	&operator++() 
 		{
-			--this->__i;
+			--__i;
 			return (*this);
 		}
 		reverse_iterator	operator++(int)
 		{
 			reverse_iterator	tmp = *this;
-			this->__i--;
+			__i--;
 			return (tmp); 
 		}
 		reverse_iterator& operator+=(difference_type __n)
 		{
-			this->__i -= __n;
+			__i -= __n;
 			return (*this);
 		}
 		reverse_iterator  operator+ (difference_type __n) const
@@ -77,18 +81,18 @@ namespace	ft
 		}
 		reverse_iterator	&operator--()
 		{
-			++this->__i;
+			++__i;
 			return (*this);
 		}
 		reverse_iterator	operator--(int)
 		{
 			reverse_iterator	tmp = *this;
-			this->__i++;
+			__i++;
 			return (tmp); 
 		}
 		reverse_iterator& operator-=(difference_type __n)
 		{
-			this->__i += __n;
+			__i += __n;
 			return (*this);
 		}
 		reverse_iterator  operator- (difference_type __n) const
@@ -104,7 +108,7 @@ namespace	ft
 		reference	operator[] (difference_type __n) const
 		{
 			long long int	_n = -1 * __n;
-			return (this->__i[_n]);
+			return (__i[_n]);
 		}
 	};
 	template <class _Iter1, class _Iter2>

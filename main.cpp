@@ -6,20 +6,20 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2022/11/17 16:14:25 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:24:17 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vector>
 #include <iostream>
-#include "includes/vector.hpp"
-#include "includes/iterator.hpp"
+#include "includes/includes.hpp"
+#include <map>
 
 template<class T>
 void	ft_print_vector(ft::vector<T> &_vec)
 {
 	std::cout << "[";
-	for (int i = 0; i < _vec.size() - 1; i++)
+	for (size_t i = 0; i < _vec.size() - 1; i++)
 		std::cout << _vec[i] << ",";
 	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
 }
@@ -28,7 +28,7 @@ template<class T>
 void	std_print_vector(std::vector<T> &_vec)
 {
 	std::cout << "[";
-	for (int i = 0; i < _vec.size() - 1; i++)
+	for (size_t i = 0; i < _vec.size() - 1; i++)
 		std::cout << _vec[i] << ",";
 	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
 }
@@ -36,6 +36,22 @@ void	std_print_vector(std::vector<T> &_vec)
 void _print(const int& x)
 {
     std::cout << x << '\n';
+}
+
+std::string gen_random(const int len)
+{
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+    std::string tmp_s;
+    tmp_s.reserve(len);
+
+    for (int i = 0; i < len; ++i) {
+        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+    
+    return tmp_s;
 }
 
 int	main()
@@ -56,8 +72,6 @@ int	main()
 	// 	ft_print_vector(ft_vec);
 	// 	std_vec.resize(18, -8748);
 	// 	ft_vec.resize(18, -8748);
-	// 	std_vec.shrink_to_fit();
-	// 	ft_vec.shrink_to_fit();
 	// 	std::cout << "--------------------" << std::endl;
 	// 	std::cout << std_vec.size() << "|" << std_vec.capacity() << std::endl;
 	// 	std_print_vector(std_vec);
@@ -133,16 +147,6 @@ int	main()
 	// 	ft_print_vector(_vec3);
 	// }
 	// {
-	// 	std::vector<int>	_vec;
-
-	// 	_vec.insert(_vec.begin(), 8, 64);
-	// 	std::vector<int>::iterator	_it = _vec.insert(_vec.begin() + 2, 0, 51);
-	// 	//std::cout << _it[-1] << std::endl;
-	// 	// for (int i = 1; i < 10; i++)
-	// 	// 	_vec.insert(_vec.end() - rand() % 10, rand() % 10, i);
-	// 	std_print_vector(_vec);
-	// }
-	// {
 	// 	ft::vector<std::string>	_vec;
 
 	// 	std::string s_string[32] =
@@ -214,16 +218,85 @@ int	main()
 	// 	v.insert(v.begin(), 5, 2);
     //     std::for_each(v.rbegin(), v.rend(), _print);
 	// }
-	// while (1)
-	// 	;
-	{
-		ft::vector<int>					_vec;
-		ft::vector<int>::iterator			_it;
+	// {
+	// 	ft::vector<int>					_vec;
 		
-
-		for (int i = 0; i < 10; i++)
-			_vec.push_back(rand() % 100);
-		_it = _vec.begin();
-		ft::vector<int>::reverse_iterator	_rit(_it);
+	// 	for (int i = 0; i < 10; i++)
+	// 		_vec.push_back(rand() % 100);
+	// 	_vec.clear ();
+	// 	std::cout << _vec.size() << std::endl;
+	// }
+	// {
+	// 	std::vector<int>					_vec;
+		
+	// 	for (int i = 0; i < 10; i++)
+	// 		_vec.push_back(rand() % 100);
+	// 	_vec.clear ();
+	// 	std::cout << _vec.size() << std::endl;
+	// }
+	// {
+		// srand((unsigned)time(NULL));     
+		// ft::map <std::string, int>	_map;
+		// std::map <std::string, int>	__map;
+		// ft::vector<int>		_vec;
+	
+		// for (int i = 0; i < 11; ++i)
+		// {
+		// 	_vec.push_back ((rand() % 100));
+		// 	std::string	s = gen_random(10);
+		// 	__map.insert (std::make_pair(s, _vec[i]));
+		// 	_map.insert (ft::make_pair(s, _vec[i]));
+		// }
+		// __map["Hello"] = 99;
+		// _map["Hello"] = 99;
+		// for (ft::map<std::string, int>::iterator i = _map.begin(); i != _map.end(); i++)
+		// 	std::cout << i->first << " " << i->second << "|";
+		// std::cout << std::endl;
+		// for (std::map<std::string, int>::iterator i = __map.begin(); i != __map.end(); i++)
+		// 	std::cout << i->first << " " << i->second << "|";
+		// std::cout << std::endl;
+	// }
+	// {
+	// 	srand((unsigned)time(NULL));     
+	// 	ft::map <std::string, int>	_map, b;
+	// 	ft::vector<int>		_vec;
+	
+	// 	for (int i = 0; i < 11; ++i)
+	// 	{
+	// 		_vec.push_back ((rand() % 100));
+	// 		std::string	s = gen_random(10);
+	// 		_map.insert (ft::make_pair(s, _vec[i]));
+	// 	}
+	// 	b.insert(_map.begin(), _map.end());
+	// 	_map.print();
+	// 	std::cout << std::endl;
+	// 	b.print();
+	// 	std::cout << std::endl;
+	// }
+	// {
+	// 	srand((unsigned)time(NULL));     
+	// 	ft::map <int, int>	_map;
+	// 	ft::vector<int>		_vec;
+	
+	// 	for (int i = 0; i < 11; ++i)
+	// 	{
+	// 		_vec.push_back ((rand() % 100));
+	// 		_map.insert (ft::make_pair(_vec[i], _vec[i]));
+	// 	}
+	// 	_map.print();
+	// 	std::cout << std::endl;
+	// 	std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
+	// 	std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	// }
+	{
+		ft::map<int, int>	_map;
+		try
+		{
+			_map.at(5);
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
 	}
 }
