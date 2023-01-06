@@ -6,13 +6,15 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/05 12:24:17 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:44:30 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include<unistd.h>  
 #include <vector>
 #include <iostream>
 #include "includes/includes.hpp"
+#include "file.hpp"
 #include <map>
 
 template<class T>
@@ -283,20 +285,76 @@ int	main()
 	// 		_vec.push_back ((rand() % 100));
 	// 		_map.insert (ft::make_pair(_vec[i], _vec[i]));
 	// 	}
-	// 	_map.print();
-	// 	std::cout << std::endl;
-	// 	std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
-	// 	std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	// 	for (int i = 0; i < 11; i++)
+	// 	{
+	// 		printTree (_map._map.get_root(), nullptr, false);
+	// 		std::cout << "\nenter index you want to delete :" ;
+	// 		int a;
+	// 		std::cin >> a;
+	// 		_map.erase(a);
+	// 	}
+	// 	printTree (_map._map.get_root(), nullptr, false);
+		// printTree (_map._map.get_root(), nullptr, false);
+		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
+		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	// }
+	// {
+	// 	ft::map<int, int>	_map;
+	// 	try
+	// 	{
+	// 		_map.at(5);
+	// 	}
+	// 	catch(const std::exception& e)
+	// 	{
+	// 		std::cerr << e.what() << '\n';
+	// 	}
 	// }
 	{
-		ft::map<int, int>	_map;
-		try
-		{
-			_map.at(5);
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << '\n';
-		}
+		ft::map<int, std::string>	m;
+		m.insert(ft::make_pair(23, "23n"));
+        m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
+        m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
+        m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
+        m.insert(ft::make_pair(3, "sssdfs"));
+        m.insert(ft::make_pair(75, "dfse"));
+        m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
+        m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
+        m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
+        m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
+
+		m.erase(64);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+		std::cout << std::endl;
+		std::cout << "\n------------------\n";
+		sleep (2);
+
+        m.erase(0);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+		std::cout << std::endl;
+		std::cout << "\n------------------\n";
+		sleep (2);
+
+        m.erase(75);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+		std::cout << std::endl;
+		std::cout << "\n------------------\n";
+		sleep (2);
+
+        m.erase(1);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+		std::cout << std::endl;
+		std::cout << "\n------------------\n";
+		sleep (2);
+
+        m.erase(2);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+		std::cout << std::endl;
+		std::cout << "\n------------------\n";
+		sleep (2);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/05 12:23:23 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:06:07 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace	ft
 			typedef ft::reverse_iterator<const_iterator>														const_reverse_iterator;
 			typedef ptrdiff_t																					difference_type;
 			typedef size_t																						size_type;
-		private :
+		public :
 			key_compare												c;
 			allocator_type											a;
 			ft::redblack_tree<Key, T, key_compare, allocator_type>	_map;
@@ -122,6 +122,10 @@ namespace	ft
 					_map.insert (*first);
 					first++;
 				}
+			}
+			size_type erase (const key_type& k)
+			{
+				return (_map.erase(k));
 			}
 			void	print ()
 			{

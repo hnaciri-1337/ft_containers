@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/05 11:24:52 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:10:21 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,18 @@ namespace	ft
 	struct	Node
 	{
 		ft::pair<const key, val>	value;
-		Node<key, val>*		parent;
-		Node<key, val>*		left;
-		Node<key, val>*		right;
-		bool				black;
+		Node<key, val>*				parent;
+		Node<key, val>*				left;
+		Node<key, val>*				right;
+		bool						black;
+		Node& operator= (const Node& pr)
+		{
+			parent = pr.parent;
+			left = pr.left;
+			right = pr.right;
+			black = pr.black;
+			return (*this);
+		}
 		Node(key _key, val _value) : value (ft::make_pair (_key, _value)), parent(nullptr), left(nullptr), right(nullptr), black(false) {}
 		Node(ft::pair <key, val> &src) : value (src), parent(nullptr), left(nullptr), right(nullptr), black(false) {}
 		Node() : parent(nullptr), left(nullptr), right(nullptr) {}
@@ -202,47 +210,17 @@ namespace	ft
 		}
 		void	delete_leaf (Node<key, val> *node)
 		{
-			if (node == _root)
+			if (node != _root)
 			{
-				delete node;
-				_root = nullptr;
-				return ;
-			}
-			if (node->parent->left == node)
-				node->parent->left = nullptr;
-			else
-				node->parent->right = nullptr;
-			delete node;
-		}
-		void	delete_red (Node<key, val> *node)
-		{
-			if (is_leaf (node))
-			{
-				delete_leaf (node);
-				return ;
-			}
-			if (node->left && node->right)
-			{
-
-			}
-			else
-			{
-				Node<key, val> *child;
-				if (node->left)
-					child = node->left;
-				else
-					child = node->right;
-				child->parent = node->parent;
 				if (node->parent->left == node)
-					node->parent->left = child;
+					node->parent->left = nullptr;
 				else
-					node->parent->right = child;
+					node->parent->right = nullptr;
 			}
-		}
-		void	delete_black (Node<key, val> *node)
-		{
-			if (is_leaf (node))
-				delete_leaf (node);
+			else
+				_root = nullptr;
+			allocator.destroy (node);
+			allocator.deallocate (node, 1);
 		}
 		void	delete_tree(Node<key, val> *node)
 		{
@@ -252,6 +230,140 @@ namespace	ft
 			delete_tree (node->right);
 			allocator.destroy (node);
 			allocator.deallocate (node, 1);
+		}
+		void	delete_red(Node<key, val> *node)
+		{
+			if (is_leaf (node))
+			{
+				delete_leaf (node);
+				return ;
+			}
+			else if (node->left != nullptr && node->right != nullptr)
+			{
+				Node<key, val>	*child = successor(node);
+				if (child == node->right)
+				{
+					child->parent = node->parent;
+					if (node->parent != nullptr)
+					{
+						if (node->parent->left == node)
+							node->parent->left = child;
+						else
+							node->parent->right = child;
+					}
+					else
+						_root = child;
+					child->left = node->left;
+				}
+				else
+				{
+					ft::pair<key, val>	c = child->value;
+					if (child->black)
+						delete_black (child);
+					else
+						delete_red (child);
+					Node<key, val>	*_new = allocator.allocate(1);
+					allocator.construct (_new, c);
+					*_new = *node;
+					if (_new->parent != nullptr)
+					{
+						if (_new->parent->left == node)
+							_new->parent->left = _new;
+						else
+							_new->parent->right = _new;
+					}
+					else
+						_root = _new;
+				}
+				allocator.destroy (node);
+				allocator.deallocate (node, 1);
+			}
+			else
+			{
+				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
+				if (node == _root)
+				{
+					_root = child;
+					_root->parent = nullptr;
+				}
+				else
+				{
+					if (node->parent->left == node)
+						node->parent->left = child;
+					else
+						node->parent->right = child;
+					child->parent = node->parent;
+				}
+				allocator.destroy (node);
+				allocator.deallocate (node, 1);
+			}
+		}
+		void	delete_black(Node<key, val> *node)
+		{
+			if (is_leaf (node))
+			{
+				delete_leaf (node);
+				return ;
+			}
+			else if (node->left != nullptr && node->right != nullptr)
+			{
+				Node<key, val>	*child = successor(node);
+				if (child == node->right)
+				{
+					child->parent = node->parent;
+					if (node->parent != nullptr)
+					{
+						if (node->parent->left == node)
+							node->parent->left = child;
+						else
+							node->parent->right = child;
+					}
+					else
+						_root = child;
+					child->left = node->left;
+				}
+				else
+				{
+					ft::pair<key, val>	c = child->value;
+					if (child->black)
+						delete_black (child);
+					else
+						delete_red (child);
+					Node<key, val>	*_new = allocator.allocate(1);
+					allocator.construct (_new, c);
+					*_new = *node;
+					if (_new->parent != nullptr)
+					{
+						if (_new->parent->left == node)
+							_new->parent->left = _new;
+						else
+							_new->parent->right = _new;
+					}
+					else
+						_root = _new;
+				}
+				allocator.destroy (node);
+				allocator.deallocate (node, 1);
+			}
+			else
+			{
+				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
+				if (node == _root)
+				{
+					_root = child;
+					_root->parent = nullptr;
+				}
+				else
+				{
+					if (node->parent->left == node)
+						node->parent->left = child;
+					else
+						node->parent->right = child;
+					child->parent = node->parent;
+				}
+				allocator.destroy (node);
+				allocator.deallocate (node, 1);
+			}
 		}
 	public:
 		redblack_tree() : _root(nullptr), _size(0) {}
@@ -465,20 +577,18 @@ namespace	ft
 					temp = temp->right;
 			}
 			return (_ans);
-		}
-		
-		void	delete_node (key _key)
+		}	
+		bool			erase(const key &k)
 		{
-			Node<key, val>	*node = find_node (_key);
-
+			Node<key, val>	*node = find_node(k);
 			if (node == nullptr)
-				return ;
+				return (false);
 			if (node->black == true)
-			{
-				delete_red (node);
-				return ;
-			}
-			delete_black (node);
+				delete_black(node);
+			else
+				delete_red(node);
+			_size--;
+			return (true);
 		}
 		void	clear ()
 		{
