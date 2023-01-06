@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 15:44:30 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:19:10 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,38 +323,23 @@ int	main()
         m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
 
 		m.erase(64);
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " ";
-		std::cout << std::endl;
-		std::cout << "\n------------------\n";
-		sleep (2);
-
         m.erase(0);
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " ";
-		std::cout << std::endl;
-		std::cout << "\n------------------\n";
-		sleep (2);
-
         m.erase(75);
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " ";
-		std::cout << std::endl;
-		std::cout << "\n------------------\n";
-		sleep (2);
-
         m.erase(1);
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " ";
-		std::cout << std::endl;
-		std::cout << "\n------------------\n";
-		sleep (2);
-
         m.erase(2);
+		sleep(2);
+		
+		printTree (m._map.get_root (), nullptr, false);
+		std::cout << "\n------------------\n";
 		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " ";
+        	std::cout << "K: " << first->first << " V: " << first->second << " | ";
+		std::cout << std::endl;
+		sleep(3);
+		m.erase(3);
+		printTree (m._map.get_root (), nullptr, false);
+		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
+        	std::cout << "K: " << first->first << " V: " << first->second << " | ";
 		std::cout << std::endl;
 		std::cout << "\n------------------\n";
-		sleep (2);
 	}
 }

@@ -53,13 +53,13 @@ void printTree(ft::Node<key, val>* root, Trunk *prev, bool isLeft)
     }
  
     showTrunks(trunk);
-    cout << " " << root->value.first << endl;
- 
-    if (prev) {
+    if (root->black)
+        cout << " \033[32m" << root->value.first << "\033[0m" << endl;
+    else
+        cout << " \033[31m" << root->value.first << "\033[0m" << endl;
+    if (prev)
         prev->str = prev_str;
-    }
     trunk->str = "   |";
- 
     printTree(root->left, trunk, false);
     free (trunk);
 }

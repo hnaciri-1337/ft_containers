@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 15:10:21 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:17:59 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,8 @@ namespace	ft
 				if (child == node->right)
 				{
 					child->parent = node->parent;
+					child->left = node->left;
+					node->left->parent = child;
 					if (node->parent != nullptr)
 					{
 						if (node->parent->left == node)
@@ -253,7 +255,6 @@ namespace	ft
 					}
 					else
 						_root = child;
-					child->left = node->left;
 				}
 				else
 				{
@@ -265,6 +266,8 @@ namespace	ft
 					Node<key, val>	*_new = allocator.allocate(1);
 					allocator.construct (_new, c);
 					*_new = *node;
+					node->right->parent = _new;
+					node->left->parent = _new;
 					if (_new->parent != nullptr)
 					{
 						if (_new->parent->left == node)
@@ -311,6 +314,8 @@ namespace	ft
 				if (child == node->right)
 				{
 					child->parent = node->parent;
+					child->left = node->left;
+					node->left->parent = child;
 					if (node->parent != nullptr)
 					{
 						if (node->parent->left == node)
@@ -320,7 +325,6 @@ namespace	ft
 					}
 					else
 						_root = child;
-					child->left = node->left;
 				}
 				else
 				{
@@ -332,6 +336,8 @@ namespace	ft
 					Node<key, val>	*_new = allocator.allocate(1);
 					allocator.construct (_new, c);
 					*_new = *node;
+					node->right->parent = _new;
+					node->left->parent = _new;
 					if (_new->parent != nullptr)
 					{
 						if (_new->parent->left == node)
