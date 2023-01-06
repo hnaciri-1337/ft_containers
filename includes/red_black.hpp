@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:17:59 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:55:51 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ namespace	ft
 					}
 					else
 						_root = child;
+					child->black = node->black;
 				}
 				else
 				{
@@ -284,6 +285,7 @@ namespace	ft
 			else
 			{
 				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
+				child->black = node->black;
 				if (node == _root)
 				{
 					_root = child;
@@ -325,6 +327,7 @@ namespace	ft
 					}
 					else
 						_root = child;
+					child->black = node->black;
 				}
 				else
 				{
@@ -354,6 +357,7 @@ namespace	ft
 			else
 			{
 				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
+				child->black = node->black;
 				if (node == _root)
 				{
 					_root = child;
