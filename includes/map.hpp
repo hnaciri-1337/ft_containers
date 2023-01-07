@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 15:06:07 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/07 17:34:11 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ namespace	ft
 			typedef	typename allocator_type::const_reference													const_reference;
 			typedef	typename allocator_type::pointer															pointer;
 			typedef	typename allocator_type::const_pointer														const_pointer;
-			typedef ft::__red_black_iterator<value_type *, ft::Node<Key, T> *>									iterator;
-			typedef ft::__red_black_iterator<const value_type *, ft::Node<Key, T> *>							const_iterator;
+			typedef ft::__red_black_iterator<value_type *, ft::Node<Key, T, allocator_type> *>					iterator;
+			typedef ft::__red_black_iterator<const value_type *, ft::Node<Key, T, allocator_type> *>			const_iterator;
 			typedef ft::reverse_iterator<iterator>																reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>														const_reverse_iterator;
 			typedef ptrdiff_t																					difference_type;
@@ -123,22 +123,18 @@ namespace	ft
 					first++;
 				}
 			}
-			size_type erase (const key_type& k)
-			{
-				return (_map.erase(k));
-			}
 			void	print ()
 			{
 				_map.print (_map.get_root());
 			}
 			iterator	begin ()
 			{
-				Node<key_type, mapped_type>	*_min = _map.get_min();
+				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
 				return (iterator (_min));
 			}
 			const_iterator	begin () const
 			{
-				Node<key_type, mapped_type>	*_min = _map.get_min();
+				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
 				return (iterator (_min));
 			}
 			iterator	end ()
@@ -151,7 +147,7 @@ namespace	ft
 			}
 			reverse_iterator	rbegin ()
 			{
-				Node<key_type, mapped_type>	*_max = _map.get_max();
+				Node<key_type, mapped_type, allocator_type>	*_max = _map.get_max();
 				return (iterator (_max));
 			}
 			reverse_iterator	rend ()
@@ -160,7 +156,7 @@ namespace	ft
 			}
 			const_reverse_iterator	rbegin () const
 			{
-				Node<key_type, mapped_type>	*_max = _map.get_max();
+				Node<key_type, mapped_type, allocator_type>	*_max = _map.get_max();
 				return (iterator (_max));
 			}
 			const_reverse_iterator	rend () const

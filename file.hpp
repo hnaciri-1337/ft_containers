@@ -27,8 +27,8 @@ void showTrunks(Trunk *p)
     std::cout << p->str;
 }
 
-template <class key, class val>
-void printTree(ft::Node<key, val>* root, Trunk *prev, bool isLeft)
+template <class key, class val, class alloc>
+void printTree(ft::Node<key, val, alloc>* root, Trunk *prev, bool isLeft)
 {
     if (root == nullptr) {
         return;
@@ -54,9 +54,9 @@ void printTree(ft::Node<key, val>* root, Trunk *prev, bool isLeft)
  
     showTrunks(trunk);
     if (root->black)
-        cout << " \033[32m" << root->value.first << "\033[0m" << endl;
+        cout << " \033[32m" << root->value->first << "\033[0m" << endl;
     else
-        cout << " \033[31m" << root->value.first << "\033[0m" << endl;
+        cout << " \033[31m" << root->value->first << "\033[0m" << endl;
     if (prev)
         prev->str = prev_str;
     trunk->str = "   |";

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:19:10 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/07 17:51:31 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,9 +294,9 @@ int	main()
 	// 		_map.erase(a);
 	// 	}
 	// 	printTree (_map._map.get_root(), nullptr, false);
-		// printTree (_map._map.get_root(), nullptr, false);
-		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
-		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	// 	printTree (_map._map.get_root(), nullptr, false);
+	// 	std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
+	// 	std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
 	// }
 	// {
 	// 	ft::map<int, int>	_map;
@@ -309,37 +309,29 @@ int	main()
 	// 		std::cerr << e.what() << '\n';
 	// 	}
 	// }
-	{
-		ft::map<int, std::string>	m;
-		m.insert(ft::make_pair(23, "23n"));
-        m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
-        m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
-        m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
-        m.insert(ft::make_pair(3, "sssdfs"));
-        m.insert(ft::make_pair(75, "dfse"));
-        m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
-        m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
-        m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
-        m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
+	// {
+	// 	ft::map<int, std::string>	m;
+	// 	m.insert(ft::make_pair(23, "23n"));
+    //     m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
+    //     m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
+    //     m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
+    //     m.insert(ft::make_pair(3, "sssdfs"));
+    //     m.insert(ft::make_pair(75, "dfse"));
+    //     m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
+    //     m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
+    //     m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
+    //     m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
 
-		m.erase(64);
-        m.erase(0);
-        m.erase(75);
-        m.erase(1);
-        m.erase(2);
-		sleep(2);
-		
-		printTree (m._map.get_root (), nullptr, false);
-		std::cout << "\n------------------\n";
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " | ";
-		std::cout << std::endl;
-		sleep(3);
-		m.erase(3);
-		printTree (m._map.get_root (), nullptr, false);
-		for (ft::map<int, std::string>::iterator first = m.begin(); first != m.end(); ++first)
-        	std::cout << "K: " << first->first << " V: " << first->second << " | ";
-		std::cout << std::endl;
-		std::cout << "\n------------------\n";
-	}
+	// 	while (1)
+	// 	{
+	// 		printTree (m._map.get_root(), nullptr, false);
+	// 		int	a;
+	// 		std::cout << "\nenter : ";
+	// 		cin >> a;
+	// 		if (a == -1)
+	// 			break ;
+	// 		m.erase (a);
+	// 	}
+	// 	printTree (m._map.get_root(), nullptr, false);
+	// }
 }

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:54:56 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 10:34:48 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/07 17:40:38 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ namespace	ft
 		}
 		reference operator*() const
 		{
-			return(__i->value);
+			return(*(__i->value));
 		}
 		reference operator*()
 		{
-			return(__i->value);
+			return(*(__i->value));
 		}
 		__red_black_iterator	&operator++()
 		{

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:55:51 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:06:02 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,60 @@
 
 namespace	ft
 {
-	template	< class key, class val >
+	template	< class key, class val, class Alloc>
 	struct	Node
 	{
-		ft::pair<const key, val>	value;
-		Node<key, val>*				parent;
-		Node<key, val>*				left;
-		Node<key, val>*				right;
-		bool						black;
+		ft::pair<const key, val>			*value;
+		Node<key, val, Alloc>*				parent;
+		Node<key, val, Alloc>*				left;
+		Node<key, val, Alloc>*				right;
+		Alloc								a;
+		bool								black;
 		Node& operator= (const Node& pr)
 		{
+			a = pr.a;
+			a.destroy (value);
+			a.deallocate (value, 1);
+			value = a.allocate(1);
+			a.construct(value, *(pr.value));
 			parent = pr.parent;
 			left = pr.left;
 			right = pr.right;
 			black = pr.black;
 			return (*this);
 		}
-		Node(key _key, val _value) : value (ft::make_pair (_key, _value)), parent(nullptr), left(nullptr), right(nullptr), black(false) {}
-		Node(ft::pair <key, val> &src) : value (src), parent(nullptr), left(nullptr), right(nullptr), black(false) {}
-		Node() : parent(nullptr), left(nullptr), right(nullptr) {}
+		Node(const Node &pr)
+		{
+			a = pr.a;
+			value = a.allocate(1);
+			a.construct(value, *(pr.value));
+			parent = pr.parent;
+			left = pr.left;
+			right = pr.right;
+			black = pr.black;
+		}
+		Node(key _key, val _value, Alloc all) : value (all.allocate (1)), parent(nullptr), left(nullptr), right(nullptr), a(all), black(false) {a.construct(value, ft::make_pair (_key, _value));}
+		Node(ft::pair <key, val> &src, Alloc all) : value (all.allocate(1)), parent(nullptr), left(nullptr), right(nullptr), a(all), black(false) {a.construct(value, src);}
+		Node() : parent(nullptr), left(nullptr), right(nullptr)
+		{
+			value = a.allocate(1);
+			a.construct(value, ft::pair<key, val>());
+		}
+		~Node() {a.destroy (value);a.deallocate (value, 1);}
 	};
 
 	template	<class key, class val, class Compare, class Alloc>
 	class redblack_tree
 	{
 	private:
-		Node<key, val>											*_root;
-		size_t													_size;
-		Compare													c;
-		typename Alloc::template rebind<Node<key, val> >::other	allocator;
-		void	left_rotation (Node<key, val> *node)
+		Node<key, val, Alloc>											*_root;
+		size_t															_size;
+		Compare															c;
+		Alloc															a;
+		typename Alloc::template rebind<Node<key, val, Alloc> >::other	allocator;
+		void	left_rotation (Node<key, val, Alloc> *node)
 		{
-			Node<key, val> *temp = node->right;
+			Node<key, val, Alloc> *temp = node->right;
 			node->right = temp->left;
 			if (node->right != nullptr)
 				node->right->parent = node;
@@ -68,9 +90,9 @@ namespace	ft
 			temp->left = node;
 			node->parent = temp;
 		}
-		void	right_rotation (Node<key, val> *node)
+		void	right_rotation (Node<key, val, Alloc> *node)
 		{
-			Node<key, val> *temp = node->left;
+			Node<key, val, Alloc> *temp = node->left;
 			node->left = temp->right;
 			if (node->left != nullptr)
 				node->left->parent = node;
@@ -90,17 +112,17 @@ namespace	ft
 			temp->right = node;
 			node->parent = temp;
 		}
-		void	left_right_rotate (Node<key, val> *node)
+		void	left_right_rotate (Node<key, val, Alloc> *node)
 		{
 			left_rotation (node->left);
 			right_rotation (node);
 		}
-		void	right_left_rotate (Node<key, val> *node)
+		void	right_left_rotate (Node<key, val, Alloc> *node)
 		{
 			right_rotation (node->right);
 			left_rotation (node);
 		}
-		void	rotate (Node<key, val> *node)
+		void	rotate (Node<key, val, Alloc> *node)
 		{
 			if (node->parent->left == node)
 			{
@@ -134,7 +156,7 @@ namespace	ft
 			node->left->black = false;
 			return ;
 		}
-		void	fix_tree (Node<key, val> *node)
+		void	fix_tree (Node<key, val, Alloc> *node)
 		{
 			if (node->parent->parent->left == node->parent)
 			{
@@ -156,7 +178,7 @@ namespace	ft
 			node->parent->parent->black = false;
 			return ;
 		}
-		void	check_color (Node<key, val>	*node)
+		void	check_color (Node<key, val, Alloc>	*node)
 		{
 			if (node == _root || node == nullptr)
 				return ;
@@ -164,7 +186,7 @@ namespace	ft
 				fix_tree (node);
 			check_color (node->parent);
 		}
-		size_t	height(Node<key, val> *root, size_t debth, size_t _height)
+		size_t	height(Node<key, val, Alloc> *root, size_t debth, size_t _height)
 		{
 			if (root == nullptr)
 			{
@@ -173,15 +195,15 @@ namespace	ft
 			}
 			return (std::max (height (root->right, debth + 1, _height), height (root->left, debth + 1, _height)));
 		}
-		size_t	black_nodes(Node<key, val> *root)
+		size_t	black_nodes(Node<key, val, Alloc> *root)
 		{
 			if (root == nullptr)
 				return (1);
 			return (black_nodes (root->left) + black_nodes (root->right) + (root->black == true));
 		}
-		void	insert (Node<key, val> *root, Node<key, val>	*_new)
+		void	insert (Node<key, val, Alloc> *root, Node<key, val, Alloc>	*_new)
 		{
-			if (c(_new->value.first, root->value.first))
+			if (c(_new->value->first, root->value->first))
 			{
 				if (root->left)
 					insert (root->left, _new);
@@ -202,13 +224,16 @@ namespace	ft
 				}
 			}
 		}
-		bool	is_leaf (Node<key, val> *node)
+		void	double_black(Node<key, val, Alloc> *node)
 		{
-			if (node->left == nullptr && node->right == nullptr)
-				return (true);
-			return (false);
+			if (node == nullptr)
+				return ;
 		}
-		void	delete_leaf (Node<key, val> *node)
+		bool	is_leaf (Node<key, val, Alloc> *node)
+		{
+			return (node->left == nullptr && node->right == nullptr);
+		}
+		void	delete_leaf (Node<key, val, Alloc> *node)
 		{
 			if (node != _root)
 			{
@@ -222,7 +247,7 @@ namespace	ft
 			allocator.destroy (node);
 			allocator.deallocate (node, 1);
 		}
-		void	delete_tree(Node<key, val> *node)
+		void	delete_tree(Node<key, val, Alloc> *node)
 		{
 			if (node == nullptr)
 				return ;
@@ -231,175 +256,31 @@ namespace	ft
 			allocator.destroy (node);
 			allocator.deallocate (node, 1);
 		}
-		void	delete_red(Node<key, val> *node)
-		{
-			if (is_leaf (node))
-			{
-				delete_leaf (node);
-				return ;
-			}
-			else if (node->left != nullptr && node->right != nullptr)
-			{
-				Node<key, val>	*child = successor(node);
-				if (child == node->right)
-				{
-					child->parent = node->parent;
-					child->left = node->left;
-					node->left->parent = child;
-					if (node->parent != nullptr)
-					{
-						if (node->parent->left == node)
-							node->parent->left = child;
-						else
-							node->parent->right = child;
-					}
-					else
-						_root = child;
-					child->black = node->black;
-				}
-				else
-				{
-					ft::pair<key, val>	c = child->value;
-					if (child->black)
-						delete_black (child);
-					else
-						delete_red (child);
-					Node<key, val>	*_new = allocator.allocate(1);
-					allocator.construct (_new, c);
-					*_new = *node;
-					node->right->parent = _new;
-					node->left->parent = _new;
-					if (_new->parent != nullptr)
-					{
-						if (_new->parent->left == node)
-							_new->parent->left = _new;
-						else
-							_new->parent->right = _new;
-					}
-					else
-						_root = _new;
-				}
-				allocator.destroy (node);
-				allocator.deallocate (node, 1);
-			}
-			else
-			{
-				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
-				child->black = node->black;
-				if (node == _root)
-				{
-					_root = child;
-					_root->parent = nullptr;
-				}
-				else
-				{
-					if (node->parent->left == node)
-						node->parent->left = child;
-					else
-						node->parent->right = child;
-					child->parent = node->parent;
-				}
-				allocator.destroy (node);
-				allocator.deallocate (node, 1);
-			}
-		}
-		void	delete_black(Node<key, val> *node)
-		{
-			if (is_leaf (node))
-			{
-				delete_leaf (node);
-				return ;
-			}
-			else if (node->left != nullptr && node->right != nullptr)
-			{
-				Node<key, val>	*child = successor(node);
-				if (child == node->right)
-				{
-					child->parent = node->parent;
-					child->left = node->left;
-					node->left->parent = child;
-					if (node->parent != nullptr)
-					{
-						if (node->parent->left == node)
-							node->parent->left = child;
-						else
-							node->parent->right = child;
-					}
-					else
-						_root = child;
-					child->black = node->black;
-				}
-				else
-				{
-					ft::pair<key, val>	c = child->value;
-					if (child->black)
-						delete_black (child);
-					else
-						delete_red (child);
-					Node<key, val>	*_new = allocator.allocate(1);
-					allocator.construct (_new, c);
-					*_new = *node;
-					node->right->parent = _new;
-					node->left->parent = _new;
-					if (_new->parent != nullptr)
-					{
-						if (_new->parent->left == node)
-							_new->parent->left = _new;
-						else
-							_new->parent->right = _new;
-					}
-					else
-						_root = _new;
-				}
-				allocator.destroy (node);
-				allocator.deallocate (node, 1);
-			}
-			else
-			{
-				Node<key, val> *child = (node->left != nullptr) ? node->left : node->right;
-				child->black = node->black;
-				if (node == _root)
-				{
-					_root = child;
-					_root->parent = nullptr;
-				}
-				else
-				{
-					if (node->parent->left == node)
-						node->parent->left = child;
-					else
-						node->parent->right = child;
-					child->parent = node->parent;
-				}
-				allocator.destroy (node);
-				allocator.deallocate (node, 1);
-			}
-		}
 	public:
 		redblack_tree() : _root(nullptr), _size(0) {}
 		~redblack_tree() { clear(); }
-		Node<key, val>	*get_min() const
+		Node<key, val, Alloc>	*get_min() const
 		{
 			if (_root == nullptr)
 				return (nullptr);
-			Node<key, val>	*temp = _root;
+			Node<key, val, Alloc>	*temp = _root;
 			while (temp->left)
 				temp = temp->left;
 			return (temp);
 		}
-		Node<key, val>	*get_max() const
+		Node<key, val, Alloc>	*get_max() const
 		{
 			if (_root == nullptr)
 				return (nullptr);
-			Node<key, val>	*temp = _root;
+			Node<key, val, Alloc>	*temp = _root;
 			while (temp->right)
 				temp = temp->right;
 			return (temp);
 		}
-		Node<key, val>	*predecessor(Node<key, val>* node)
+		Node<key, val, Alloc>	*predecessor(Node<key, val, Alloc>* node)
 		{
-			Node<key, val>	*cur = node->left;
-			Node<key, val>	*predecessor;
+			Node<key, val, Alloc>	*cur = node->left;
+			Node<key, val, Alloc>	*predecessor;
 			if (cur)
 			{
 				while(cur->right != NULL)
@@ -412,7 +293,7 @@ namespace	ft
 			predecessor = nullptr;
 			while (cur)
 			{
-				if (c(node->value.first, cur->value.first))
+				if (c(node->value->first, cur->value->first))
 					cur = cur->left;
 				else if (node->value > cur->value)
 				{
@@ -424,10 +305,10 @@ namespace	ft
 			}
 			return (predecessor);
 		}
-		Node<key, val>	*successor(Node<key, val>* node)
+		Node<key, val, Alloc>	*successor(Node<key, val, Alloc>* node)
 		{
-			Node<key, val>	*cur = node->right;
-			Node<key, val>	*successor;
+			Node<key, val, Alloc>	*cur = node->right;
+			Node<key, val, Alloc>	*successor;
 			if (cur)
 			{
 				while(cur->left != NULL)
@@ -440,7 +321,7 @@ namespace	ft
 			successor = nullptr;
 			while (cur)
 			{
-				if (c(cur->value.first, node->value.first))
+				if (c(cur->value->first, node->value->first))
 					cur = cur->right;
 				else if (node->value < cur->value)
 				{
@@ -452,7 +333,7 @@ namespace	ft
 			}
 			return (successor);
 		}
-		Node<key, val>	*get_root()
+		Node<key, val, Alloc>	*get_root()
 		{
 			return (_root);
 		}
@@ -461,8 +342,8 @@ namespace	ft
 			ft::pair <key, val>	c(_data);
 			if (find_node (_data.first) != nullptr)
 				return (false);
-			Node<key, val>	*_new = allocator.allocate(1);
-			allocator.construct (_new, c);
+			Node<key, val, Alloc>	*_new = allocator.allocate(1);
+			allocator.construct (_new, Node<key, val, Alloc> (c, a));
 			if (!_root)
 				_root = _new;
 			else
@@ -477,8 +358,8 @@ namespace	ft
 			ft::pair <key, val>	c(_data);
 			if (find_node (_data.first) != nullptr)
 				return (false);
-			Node<key, val>	*_new = allocator.allocate(1);
-			allocator.construct (_new, c);
+			Node<key, val, Alloc>	*_new = allocator.allocate(1);
+			allocator.construct (_new, Node<key, val, Alloc> (c, a));
 			if (!_root)
 				_root = _new;
 			else
@@ -496,33 +377,33 @@ namespace	ft
 		{
 			return (black_nodes(_root));
 		}
-		Node<key, val>	*find_node (const key &_key) const
+		Node<key, val, Alloc>	*find_node (const key &_key) const
 		{
-			Node<key, val>	*temp = _root;
+			Node<key, val, Alloc>	*temp = _root;
 			while(temp)  
 			{
-				if (temp->value.first == _key)
+				if (temp->value->first == _key)
 					break ;
-				if (c(_key, temp->value.first))
+				if (c(_key, temp->value->first))
 					temp = temp->left;   
 				else
 					temp = temp->right;
 			}
 			return (temp);
 		}
-		Node<key, val>	*lower_bound(const key &k) const
+		Node<key, val, Alloc>	*lower_bound(const key &k) const
 		{
-			Node<key, val>	*temp = _root;
-			Node<key, val>	*_ans = nullptr;
+			Node<key, val, Alloc>	*temp = _root;
+			Node<key, val, Alloc>	*_ans = nullptr;
 
 			while (temp)
 			{
-				if (temp->value.first == k)
+				if (temp->value->first == k)
 				{
 					_ans = temp;
 					break ;
 				}
-				if (c(k, temp->value.first))
+				if (c(k, temp->value->first))
 				{
 					_ans = temp;
 					temp = temp->left;
@@ -532,19 +413,19 @@ namespace	ft
 			}
 			return (_ans);
 		}
-		Node<key, val>	*lower_bound(const key &k)
+		Node<key, val, Alloc>	*lower_bound(const key &k)
 		{
-			Node<key, val>	*temp = _root;
-			Node<key, val>	*_ans = nullptr;
+			Node<key, val, Alloc>	*temp = _root;
+			Node<key, val, Alloc>	*_ans = nullptr;
 
 			while (temp)
 			{
-				if (temp->value.first == k)
+				if (temp->value->first == k)
 				{
 					_ans = temp;
 					break ;
 				}
-				if (c(k, temp->value.first))
+				if (c(k, temp->value->first))
 				{
 					_ans = temp;
 					temp = temp->left;
@@ -554,14 +435,14 @@ namespace	ft
 			}
 			return (_ans);
 		}
-		Node<key, val>	*upper_bound(const key &k) const
+		Node<key, val, Alloc>	*upper_bound(const key &k) const
 		{
-			Node<key, val>	*temp = _root;
-			Node<key, val>	*_ans = nullptr;
+			Node<key, val, Alloc>	*temp = _root;
+			Node<key, val, Alloc>	*_ans = nullptr;
 
 			while (temp)
 			{
-				if (c(k, temp->value.first))
+				if (c(k, temp->value->first))
 				{
 					_ans = temp;
 					temp = temp->left;
@@ -571,14 +452,14 @@ namespace	ft
 			}
 			return (_ans);
 		}
-		Node<key, val>	*upper_bound(const key &k)
+		Node<key, val, Alloc>	*upper_bound(const key &k)
 		{
-			Node<key, val>	*temp = _root;
-			Node<key, val>	*_ans = nullptr;
+			Node<key, val, Alloc>	*temp = _root;
+			Node<key, val, Alloc>	*_ans = nullptr;
 
 			while (temp)
 			{
-				if (c(k, temp->value.first))
+				if (c(k, temp->value->first))
 				{
 					_ans = temp;
 					temp = temp->left;
@@ -588,30 +469,18 @@ namespace	ft
 			}
 			return (_ans);
 		}	
-		bool			erase(const key &k)
-		{
-			Node<key, val>	*node = find_node(k);
-			if (node == nullptr)
-				return (false);
-			if (node->black == true)
-				delete_black(node);
-			else
-				delete_red(node);
-			_size--;
-			return (true);
-		}
 		void	clear ()
 		{
 			delete_tree (_root);
 			_size = 0;
 			_root = nullptr;
 		}
-		void	print (Node<key, val> *_root)
+		void	print (Node<key, val, Alloc> *_root)
 		{
 			if (!_root)
 				return ;
 			print (_root->left);
-			std::cout << _root->value.first << " ";
+			std::cout << _root->value->first << " ";
 			print (_root->right);
 		}
 		size_t	size () const
