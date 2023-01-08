@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/08 15:09:24 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/08 20:17:18 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,17 +279,79 @@ namespace	ft
 				}
 			}
 		}
+		bool	pure_black(Node<key, val, Alloc> *node)
+		{
+			if (node->black == false || (node->right != nullptr && node->right->black == false) || (node->left != nullptr && node->left->black == false))
+				return (false);
+			return (true);
+		}
 		void	double_black(Node<key, val, Alloc> *node)
 		{
-			if (node == nullptr)
+			if (node == nullptr || node == _root)
 				return ;
+			Node<key, val, Alloc>	*sibling = (node->parent->left == node) ? node->parent->right : node->parent->left;
+			bool					isleft = (node->parent->left == node) ? true : false;
+			if (sibling == nullptr)
+			{
+				std::cout << "ACH HADSHI EXIT 0" << std::endl;
+				exit (0);
+			}
+			if (pure_black(sibling))
+			{
+				sibling->black = false;
+				if (node->parent->black == false)
+					node->parent->black = true;
+				else
+					double_black (node->parent);
+				return ;					
+			}
+			if (sibling->black == false)
+			{
+				sibling->black = true;
+				node->parent->black = false;
+				(node->parent->left == node) ? left_rotation(node->parent) : right_rotation(node->parent);
+				double_black (node);
+				return ;
+			}
+			if (sibling->black == true && ((isleft == true && (sibling->right == nullptr || sibling->right->black == true)) || (isleft == false && (sibling->left == nullptr || sibling->left->black == true))))
+			{
+				sibling->black = false;
+				(sibling->left != nullptr && sibling->left->black == false) ? sibling->left->black = true : sibling->right->black = true;
+				(isleft == true) ? right_rotation(sibling) : left_rotation(sibling);
+				double_black (node);
+				return ;
+			}
+			if (sibling->black == true && ((isleft == false && (sibling->right == nullptr || sibling->right->black == true)) || (isleft == true && (sibling->left == nullptr || sibling->left->black == true))))
+			{
+				Node<key, val, Alloc>	*sibling_child = (sibling->left != nullptr && sibling->left->black == false) ? sibling->left : sibling->right;
+				bool	t = node->parent->black;
+				node->parent->black = sibling->black;
+				sibling->black = t;
+				(isleft == true) ? left_rotation (node->parent) : right_rotation (node->parent);
+				sibling_child->black = true;
+			}
 		}
 		bool	is_leaf (Node<key, val, Alloc> *node)
 		{
 			return (node->left == nullptr && node->right == nullptr);
 		}
-		void	delete_leaf (Node<key, val, Alloc> *node)
+		void	delete_red_leaf (Node<key, val, Alloc> *node)
 		{
+			if (node != _root)
+			{
+				if (node->parent->left == node)
+					node->parent->left = nullptr;
+				else
+					node->parent->right = nullptr;
+			}
+			else
+				_root = nullptr;
+			allocator.destroy (node);
+			allocator.deallocate (node, 1);
+		}
+		void	delete_black_leaf (Node<key, val, Alloc> *node)
+		{
+			double_black (node);
 			if (node != _root)
 			{
 				if (node->parent->left == node)
@@ -315,7 +377,7 @@ namespace	ft
 		{
 			if (is_leaf(node))
 			{
-				delete_leaf(node);
+				delete_black_leaf(node);
 				return ;
 			}
 			if (node->right != nullptr && node->left != nullptr)
@@ -339,7 +401,7 @@ namespace	ft
 		{
 			if (is_leaf(node))
 			{
-				delete_leaf(node);
+				delete_red_leaf(node);
 				return ;
 			}
 			if (node->right != nullptr && node->left != nullptr)

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/08 15:04:12 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/08 20:18:21 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,37 +318,34 @@ int	main()
 		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
 		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
 	// }
-	{
-		ft::map<int, std::string> m;
-		m.insert(ft::make_pair(23, "23n"));
-		m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
-		m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
-		m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
-		m.insert(ft::make_pair(3, "sssdfs"));
-		m.insert(ft::make_pair(75, "dfse"));
-		m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
-		m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
-		m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
-		m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
+	// {
+	// 	ft::map<int, std::string> m;
+	// 	m.insert(ft::make_pair(23, "23n"));
+	// 	m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
+	// 	m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
+	// 	m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
+	// 	m.insert(ft::make_pair(3, "sssdfs"));
+	// 	m.insert(ft::make_pair(75, "dfse"));
+	// 	m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
+	// 	m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
+	// 	m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
+	// 	m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
 		
-		m.erase(64);
-        m.erase(0);
-        m.erase(75);
-        m.erase(1);
-        m.erase(2);
-		m.print(); std::cout << std::endl;
-
-		printTree (m._map.get_root(), nullptr, false);
-
-		m.erase(3);
-		printTree (m._map.get_root(), nullptr, false);
-
-		m.erase(23);
-		m.erase(30);
-		m.erase(-22);
-		m.erase(-23);
-		m.erase(25);
-	}
+	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
+    //     m.erase(0);
+    //     m.erase(75);
+    //     m.erase(1);
+    //     m.erase(2);
+	// 	m.erase(3);
+	// 	m.erase(23);
+	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
+	// 	m.erase(30);
+	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
+	// 	m.erase(-23);
+	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
+	// 	m.erase(-22);
+	// 	m.erase(25);
+	// }
 	// {
 	// 	ft::map<int, int>	_map;
 	// 	try
