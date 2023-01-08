@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/07 18:06:02 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/08 15:09:24 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 
 namespace	ft
 {
+	struct Trunk
+	{
+		Trunk *prev;
+		std::string str;
+	
+		Trunk(Trunk *prev, std::string str)
+		{
+			this->prev = prev;
+			this->str = str;
+		}
+	};
 	template	< class key, class val, class Alloc>
 	struct	Node
 	{
@@ -68,6 +79,50 @@ namespace	ft
 		Compare															c;
 		Alloc															a;
 		typename Alloc::template rebind<Node<key, val, Alloc> >::other	allocator;
+		void showTrunks(Trunk *p)
+		{
+			if (p == nullptr) {
+				return;
+			}
+		
+			showTrunks(p->prev);
+			std::cout << p->str;
+		}
+		void printTree(Node<key, val, Alloc>* root, Trunk *prev, bool isLeft)
+		{
+			if (root == nullptr) {
+				return;
+			}
+		
+			std::string prev_str = "    ";
+			Trunk *trunk = new Trunk(prev, prev_str);
+		
+			printTree(root->right, trunk, true);
+		
+			if (!prev) {
+				trunk->str = "———";
+			}
+			else if (isLeft)
+			{
+				trunk->str = ".———";
+				prev_str = "   |";
+			}
+			else {
+				trunk->str = "`———";
+				prev->str = prev_str;
+			}
+		
+			showTrunks(trunk);
+			if (root->black)
+				std::cout << " \033[32m" << root->value->first << "\033[0m" << std::endl;
+			else
+				std::cout << " \033[31m" << root->value->first << "\033[0m" << std::endl;
+			if (prev)
+				prev->str = prev_str;
+			trunk->str = "   |";
+			printTree(root->left, trunk, false);
+			free (trunk);
+		}
 		void	left_rotation (Node<key, val, Alloc> *node)
 		{
 			Node<key, val, Alloc> *temp = node->right;
@@ -256,6 +311,54 @@ namespace	ft
 			allocator.destroy (node);
 			allocator.deallocate (node, 1);
 		}
+		void	delete_black(Node<key, val, Alloc> *node)
+		{
+			if (is_leaf(node))
+			{
+				delete_leaf(node);
+				return ;
+			}
+			if (node->right != nullptr && node->left != nullptr)
+			{
+				Node<key, val, Alloc>	*succ = successor(node);
+				a.destroy (node->value);
+				a.deallocate (node->value, 1);
+				node->value = a.allocate(1);
+				a.construct(node->value, *(succ->value));
+				(succ->black) ? delete_black (succ) : delete_red (succ);
+				return ;
+			}
+			Node<key, val, Alloc>	*child = (node->right != nullptr) ? successor(node) : predecessor(node);
+			a.destroy (node->value);
+			a.deallocate (node->value, 1);
+			node->value = a.allocate(1);
+			a.construct(node->value, *(child->value));
+			(child->black) ? delete_black (child) : delete_red (child);
+		}
+		void	delete_red(Node<key, val, Alloc> *node)
+		{
+			if (is_leaf(node))
+			{
+				delete_leaf(node);
+				return ;
+			}
+			if (node->right != nullptr && node->left != nullptr)
+			{
+				Node<key, val, Alloc>	*succ = successor(node);
+				a.destroy (node->value);
+				a.deallocate (node->value, 1);
+				node->value = a.allocate(1);
+				a.construct(node->value, *(succ->value));
+				(succ->black) ? delete_black (succ) : delete_red (succ);
+				return ;
+			}
+			Node<key, val, Alloc>	*child = (node->right != nullptr) ? successor(node) : predecessor(node);
+			a.destroy (node->value);
+			a.deallocate (node->value, 1);
+			node->value = a.allocate(1);
+			a.construct(node->value, *(child->value));
+			(child->black) ? delete_black (child) : delete_red (child);
+		}		
 	public:
 		redblack_tree() : _root(nullptr), _size(0) {}
 		~redblack_tree() { clear(); }
@@ -469,6 +572,18 @@ namespace	ft
 			}
 			return (_ans);
 		}	
+		size_t					erase(const key &k)
+		{
+			Node<key, val, Alloc>	*node = find_node(k);
+			if (node == nullptr)
+				return (0);
+			if (node->black)
+				delete_black(node);
+			else
+				delete_red(node);
+			_size--;
+			return (1);
+		}
 		void	clear ()
 		{
 			delete_tree (_root);

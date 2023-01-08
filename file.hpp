@@ -1,3 +1,5 @@
+#ifndef FILE_HPP
+#define FILE_HPP
 #include <iostream>
 #include <string>
 #include "includes/includes.hpp"
@@ -16,7 +18,6 @@ struct Trunk
     }
 };
  
-// Helper function to print branches of the binary tree
 void showTrunks(Trunk *p)
 {
     if (p == nullptr) {
@@ -63,3 +64,4 @@ void printTree(ft::Node<key, val, alloc>* root, Trunk *prev, bool isLeft)
     printTree(root->left, trunk, false);
     free (trunk);
 }
+#endif

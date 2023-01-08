@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/07 17:51:31 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/08 15:04:12 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,28 +276,79 @@ int	main()
 	// 	std::cout << std::endl;
 	// }
 	// {
-	// 	srand((unsigned)time(NULL));     
 	// 	ft::map <int, int>	_map;
 	// 	ft::vector<int>		_vec;
-	
-	// 	for (int i = 0; i < 11; ++i)
+	// 	_vec.push_back(60);
+	// 	_vec.push_back(35);
+	// 	_vec.push_back(28);
+	// 	_vec.push_back(90);
+	// 	_vec.push_back(71);
+	// 	_vec.push_back(17);
+	// 	_vec.push_back(40);
+	// 	_vec.push_back(29);
+	// 	_vec.push_back(41);
+	// 	_vec.push_back(51);
+	// 	for (int i = 0; i < 10; ++i)
 	// 	{
-	// 		_vec.push_back ((rand() % 100));
 	// 		_map.insert (ft::make_pair(_vec[i], _vec[i]));
+	// 		std::cout << _vec[i] << " ";
 	// 	}
-	// 	for (int i = 0; i < 11; i++)
+	// 	std::cout << std::endl;
+	// 	while (1)
 	// 	{
+	// 		std::cout << std::endl;
 	// 		printTree (_map._map.get_root(), nullptr, false);
-	// 		std::cout << "\nenter index you want to delete :" ;
-	// 		int a;
-	// 		std::cin >> a;
-	// 		_map.erase(a);
+	// 		std::cout << "enter :";
+	// 		int a; std::cin >> a;
+	// 		if (a == -1) break ;
+	// 		_map.erase (a);
 	// 	}
 	// 	printTree (_map._map.get_root(), nullptr, false);
-	// 	printTree (_map._map.get_root(), nullptr, false);
-	// 	std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
-	// 	std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	// 	while (1);
+		// for (int i = 0; i < 11; i++)
+		// {
+		// 	printTree (_map._map.get_root(), nullptr, false);
+		// 	std::cout << "\nenter index you want to delete :" ;
+		// 	int a;
+		// 	std::cin >> a;
+		// 	_map.erase(a);
+		// }
+		// printTree (_map._map.get_root(), nullptr, false);
+		// printTree (_map._map.get_root(), nullptr, false);
+		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
+		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
 	// }
+	{
+		ft::map<int, std::string> m;
+		m.insert(ft::make_pair(23, "23n"));
+		m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
+		m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
+		m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
+		m.insert(ft::make_pair(3, "sssdfs"));
+		m.insert(ft::make_pair(75, "dfse"));
+		m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
+		m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
+		m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
+		m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
+		
+		m.erase(64);
+        m.erase(0);
+        m.erase(75);
+        m.erase(1);
+        m.erase(2);
+		m.print(); std::cout << std::endl;
+
+		printTree (m._map.get_root(), nullptr, false);
+
+		m.erase(3);
+		printTree (m._map.get_root(), nullptr, false);
+
+		m.erase(23);
+		m.erase(30);
+		m.erase(-22);
+		m.erase(-23);
+		m.erase(25);
+	}
 	// {
 	// 	ft::map<int, int>	_map;
 	// 	try
