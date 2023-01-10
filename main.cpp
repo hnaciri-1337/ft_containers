@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/08 20:18:21 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 13:57:59 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ std::string gen_random(const int len)
     
     return tmp_s;
 }
+
+// struct student
+// {
+// 	std::string login;
+// 	struct student *next;
+// };
 
 int	main()
 {
@@ -305,18 +311,6 @@ int	main()
 	// 	}
 	// 	printTree (_map._map.get_root(), nullptr, false);
 	// 	while (1);
-		// for (int i = 0; i < 11; i++)
-		// {
-		// 	printTree (_map._map.get_root(), nullptr, false);
-		// 	std::cout << "\nenter index you want to delete :" ;
-		// 	int a;
-		// 	std::cin >> a;
-		// 	_map.erase(a);
-		// }
-		// printTree (_map._map.get_root(), nullptr, false);
-		// printTree (_map._map.get_root(), nullptr, false);
-		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
-		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
 	// }
 	// {
 	// 	ft::map<int, std::string> m;
@@ -381,5 +375,66 @@ int	main()
 	// 		m.erase (a);
 	// 	}
 	// 	printTree (m._map.get_root(), nullptr, false);
+	// }
+	{
+		ft::map <int, int>	_map;
+		ft::vector<int>		_vec;
+		for (int i = 0; i < 50; ++i)
+		{
+			_vec.push_back(rand() % 100);
+			_map.insert (ft::make_pair(_vec[i], _vec[i]));
+			std::cout << _vec[i] << " ";
+		}
+		std::cout << std::endl;
+		while (1)
+		{
+			// std::cout << _map._map.get_root()->value->first << std::endl;
+			printTree (_map._map.get_root(), nullptr, false);
+			std::cout << "enter :";
+			int a; std::cin >> a;
+			if (a == -1) break ;
+			_map.erase (a);
+		}
+		printTree (_map._map.get_root(), nullptr, false);
+		while (1);
+		// for (int i = 0; i < 11; i++)
+		// {
+		// 	printTree (_map._map.get_root(), nullptr, false);
+		// 	std::cout << "\nenter index you want to delete :" ;
+		// 	int a;
+		// 	std::cin >> a;
+		// 	_map.erase(a);
+		// }
+		// printTree (_map._map.get_root(), nullptr, false);
+		// printTree (_map._map.get_root(), nullptr, false);
+		// std::cout << _map.lower_bound(23)->first << "|" << _map.lower_bound(50)->first << "|" << _map.lower_bound(70)->first << std::endl;
+		// std::cout << _map.upper_bound(23)->first << "|" << _map.upper_bound(50)->first << "|" << _map.upper_bound(70)->first << std::endl;
+	}
+	// {
+	// 	struct student *head = nullptr;
+
+	// 	while (1)
+	// 	{
+	// 		std::cout << "enter login to add : ";
+	// 		std::string a;
+	// 		std::cin >> a;
+	// 		if (a == "baraka")
+	// 			break ;
+	// 		struct student *t = new student();
+	// 		t->login = a;
+	// 		if (head == nullptr)
+	// 			head = t;
+	// 		else
+	// 		{
+	// 			t->next = head;
+	// 			head = t;
+	// 		}
+	// 	}
+	// 	std::cout << "------------\n";
+	// 	while (head)
+	// 	{
+	// 		std::cout << head->login << std::endl;
+	// 		head = head->next;
+	// 	}
 	// }
 }

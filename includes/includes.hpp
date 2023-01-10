@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 18:35:37 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/02 16:45:20 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 12:08:30 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 #include "map.hpp"
 #include "vector.hpp"
 #include "equal.hpp"
+#include "stack.hpp"
 
 # endif

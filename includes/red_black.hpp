@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/08 20:17:18 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 13:55:53 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,8 +307,9 @@ namespace	ft
 			}
 			if (sibling->black == false)
 			{
-				sibling->black = true;
-				node->parent->black = false;
+				bool	t = sibling->black;
+				sibling->black = node->parent->black;
+				node->parent->black = t;
 				(node->parent->left == node) ? left_rotation(node->parent) : right_rotation(node->parent);
 				double_black (node);
 				return ;
@@ -321,7 +322,7 @@ namespace	ft
 				double_black (node);
 				return ;
 			}
-			if (sibling->black == true && ((isleft == false && (sibling->right == nullptr || sibling->right->black == true)) || (isleft == true && (sibling->left == nullptr || sibling->left->black == true))))
+			if (sibling->black == true && ((isleft == false && (sibling->left != nullptr && sibling->left->black == false)) || (isleft == true && (sibling->right != nullptr && sibling->right->black == false))))
 			{
 				Node<key, val, Alloc>	*sibling_child = (sibling->left != nullptr && sibling->left->black == false) ? sibling->left : sibling->right;
 				bool	t = node->parent->black;
@@ -329,6 +330,7 @@ namespace	ft
 				sibling->black = t;
 				(isleft == true) ? left_rotation (node->parent) : right_rotation (node->parent);
 				sibling_child->black = true;
+				return ;
 			}
 		}
 		bool	is_leaf (Node<key, val, Alloc> *node)
@@ -382,7 +384,7 @@ namespace	ft
 			}
 			if (node->right != nullptr && node->left != nullptr)
 			{
-				Node<key, val, Alloc>	*succ = successor(node);
+				Node<key, val, Alloc>	*succ = predecessor(node);
 				a.destroy (node->value);
 				a.deallocate (node->value, 1);
 				node->value = a.allocate(1);
@@ -406,7 +408,7 @@ namespace	ft
 			}
 			if (node->right != nullptr && node->left != nullptr)
 			{
-				Node<key, val, Alloc>	*succ = successor(node);
+				Node<key, val, Alloc>	*succ = predecessor(node);
 				a.destroy (node->value);
 				a.deallocate (node->value, 1);
 				node->value = a.allocate(1);
