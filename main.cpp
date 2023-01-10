@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/10 13:57:59 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:21:12 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,11 +377,13 @@ int	main()
 	// 	printTree (m._map.get_root(), nullptr, false);
 	// }
 	{
+		// srand(time(nullptr));
+		int	array[] = {61, 27, 64, 75, 1, 81, 16, 7, 84, 39, 87, 31, 50, 57, 24, 31, 72, 48, 15, 67};
 		ft::map <int, int>	_map;
-		ft::vector<int>		_vec;
-		for (int i = 0; i < 50; ++i)
+		ft::vector<int>		_vec(array, array + 20);
+		for (int i = 0; i < 20; i++)
 		{
-			_vec.push_back(rand() % 100);
+			// _vec.push_back(rand() % 100);
 			_map.insert (ft::make_pair(_vec[i], _vec[i]));
 			std::cout << _vec[i] << " ";
 		}

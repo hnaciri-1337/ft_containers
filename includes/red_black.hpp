@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/10 13:55:53 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:46:26 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,10 +292,7 @@ namespace	ft
 			Node<key, val, Alloc>	*sibling = (node->parent->left == node) ? node->parent->right : node->parent->left;
 			bool					isleft = (node->parent->left == node) ? true : false;
 			if (sibling == nullptr)
-			{
-				std::cout << "ACH HADSHI EXIT 0" << std::endl;
-				exit (0);
-			}
+				return ;
 			if (pure_black(sibling))
 			{
 				sibling->black = false;
@@ -324,7 +321,10 @@ namespace	ft
 			}
 			if (sibling->black == true && ((isleft == false && (sibling->left != nullptr && sibling->left->black == false)) || (isleft == true && (sibling->right != nullptr && sibling->right->black == false))))
 			{
+				printTree (_root, nullptr, false);
 				Node<key, val, Alloc>	*sibling_child = (sibling->left != nullptr && sibling->left->black == false) ? sibling->left : sibling->right;
+				if (sibling->left != nullptr && sibling->right != nullptr)
+					sibling_child = (isleft == true) ? sibling->right : sibling->left;
 				bool	t = node->parent->black;
 				node->parent->black = sibling->black;
 				sibling->black = t;
