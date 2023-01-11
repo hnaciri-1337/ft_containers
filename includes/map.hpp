@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/08 13:27:32 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:36:55 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,20 @@ namespace	ft
 			size_type		erase (const key_type &k)
 			{
 				return (_map.erase (k));
+			}
+			void erase (iterator position)
+			{
+				_map.erase (position->first);
+			}
+			void erase (iterator first, iterator last)
+			{
+				while (first != last)
+				{
+					iterator	temp = first;
+					temp++;
+					_map.erase(first->first);
+					first = temp;
+				}
 			}
 			void	print ()
 			{

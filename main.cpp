@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/11 17:32:39 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/11 18:46:15 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,24 +377,21 @@ int	main()
 	// 	printTree (m._map.get_root(), nullptr, false);
 	// }
 	{
-		// srand(time(nullptr));
-		int	array[] = {61, 27, 64, 75, 1, 81, 16, 7, 84, 39};//, 87, 31, 50, 57, 24, 31, 72, 48, 15, 67};
-		ft::map <int, int>	_map;
-		ft::vector<int>		_vec(array, array + 10);
+		srand(time(nullptr));
+		int	array[] = {61, 27, 64, 75, 1, 81, 16, 7, 84, 39, 87, 31, 50, 57, 24, 31, 72, 48, 15, 67};
+		ft::map <std::string, int>	_map;
+		ft::vector<int>		_vec(array, array + 20);
 		for (int i = 0; i < 10; i++)
 		{
-			// _vec.push_back(rand() % 100);
-			_map.insert (ft::make_pair(_vec[i], _vec[i]));
-			std::cout << _vec[i] << " ";
+			_map.insert (ft::make_pair(gen_random(7), _vec[i]));
 		}
-		std::cout << std::endl;
 		while (1)
 		{
 			// std::cout << _map._map.get_root()->value->first << std::endl;
 			printTree (_map._map.get_root(), nullptr, false);
 			std::cout << "enter :";
-			int a; std::cin >> a;
-			if (a == -1) break ;
+			std::string a; std::cin >> a;
+			if (a == "-1") break ;
 			_map.erase (a);
 		}
 		printTree (_map._map.get_root(), nullptr, false);
