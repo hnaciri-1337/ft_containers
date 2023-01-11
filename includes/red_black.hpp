@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/10 17:46:26 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:32:00 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,6 @@ namespace	ft
 			}
 			if (sibling->black == true && ((isleft == false && (sibling->left != nullptr && sibling->left->black == false)) || (isleft == true && (sibling->right != nullptr && sibling->right->black == false))))
 			{
-				printTree (_root, nullptr, false);
 				Node<key, val, Alloc>	*sibling_child = (sibling->left != nullptr && sibling->left->black == false) ? sibling->left : sibling->right;
 				if (sibling->left != nullptr && sibling->right != nullptr)
 					sibling_child = (isleft == true) ? sibling->right : sibling->left;
@@ -375,6 +374,69 @@ namespace	ft
 			allocator.destroy (node);
 			allocator.deallocate (node, 1);
 		}
+		void	swap_node(Node<key, val, Alloc> **_node, Node<key, val, Alloc> **_child)
+		{
+			Node<key, val, Alloc> *node = *_node;
+			Node<key, val, Alloc> *child = *_child;
+
+			Alloc						a = node->a;
+			node->a = child->a;
+			child->a = a;
+			bool						black = node->black;
+			node->black = child->black;
+			child->black = black;
+			if (child->parent == node)
+			{
+				Node<key, val, Alloc>		*left = child->left;
+				Node<key, val, Alloc>		*right = child->right;
+				if (node->left == child)
+				{
+					child->left = node, child->right = node->right;
+					if (child->right != nullptr)
+						child->right->parent = child;
+				}
+				else
+				{
+					child->right = node, child->left = node->left;
+					if (child->left != nullptr)
+						child->left->parent = child;
+				}
+				child->parent = node->parent;
+				if (child->parent == nullptr)
+					_root = child;
+				else
+					(child->parent->left == node) ? child->parent->left = child : child->parent->right = child;
+				node->parent = child;
+				node->left = left;
+				node->right = right;
+				if (node->left != nullptr)
+					node->left->parent = node;
+				if (node->right != nullptr)
+					node->right->parent = node;
+			}
+			else
+			{
+				Node<key, val, Alloc>		*left = node->left;
+				Node<key, val, Alloc>		*right = node->right;
+				Node<key, val, Alloc>		*parent = node->parent;
+				node->left = child->left;
+				if (node->left != nullptr) node->left->parent = node;
+				child->left = left;
+				if (child->left != nullptr) child->left->parent = child;
+				node->right = child->right;
+				if (node->right != nullptr) node->right->parent = node;
+				child->right = right;
+				if (child->right != nullptr) child->right->parent = child;
+				
+				if (node->parent == nullptr)
+					_root = child;
+				else
+					(node->parent->left == node) ? node->parent->left = child : node->parent->right = child;
+				(child->parent->left == child) ? child->parent->left = node : child->parent->right = node;
+				node->parent = child->parent;
+				child->parent = parent;
+			}
+		}
 		void	delete_black(Node<key, val, Alloc> *node)
 		{
 			if (is_leaf(node))
@@ -384,20 +446,14 @@ namespace	ft
 			}
 			if (node->right != nullptr && node->left != nullptr)
 			{
-				Node<key, val, Alloc>	*succ = predecessor(node);
-				a.destroy (node->value);
-				a.deallocate (node->value, 1);
-				node->value = a.allocate(1);
-				a.construct(node->value, *(succ->value));
-				(succ->black) ? delete_black (succ) : delete_red (succ);
+				Node<key, val, Alloc>	*child = predecessor(node);
+				swap_node(&node, &child);
+				(node->black) ? delete_black (node) : delete_red (node);
 				return ;
 			}
 			Node<key, val, Alloc>	*child = (node->right != nullptr) ? successor(node) : predecessor(node);
-			a.destroy (node->value);
-			a.deallocate (node->value, 1);
-			node->value = a.allocate(1);
-			a.construct(node->value, *(child->value));
-			(child->black) ? delete_black (child) : delete_red (child);
+			swap_node(&node, &child);
+			(node->black) ? delete_black (node) : delete_red (node);
 		}
 		void	delete_red(Node<key, val, Alloc> *node)
 		{
@@ -408,21 +464,15 @@ namespace	ft
 			}
 			if (node->right != nullptr && node->left != nullptr)
 			{
-				Node<key, val, Alloc>	*succ = predecessor(node);
-				a.destroy (node->value);
-				a.deallocate (node->value, 1);
-				node->value = a.allocate(1);
-				a.construct(node->value, *(succ->value));
-				(succ->black) ? delete_black (succ) : delete_red (succ);
+				Node<key, val, Alloc>	*child = predecessor(node);
+				swap_node(&node, &child);
+				(node->black) ? delete_black (node) : delete_red (node);
 				return ;
 			}
 			Node<key, val, Alloc>	*child = (node->right != nullptr) ? successor(node) : predecessor(node);
-			a.destroy (node->value);
-			a.deallocate (node->value, 1);
-			node->value = a.allocate(1);
-			a.construct(node->value, *(child->value));
-			(child->black) ? delete_black (child) : delete_red (child);
-		}		
+			swap_node(&node, &child);
+			(node->black) ? delete_black (node) : delete_red (node);
+		}	
 	public:
 		redblack_tree() : _root(nullptr), _size(0) {}
 		~redblack_tree() { clear(); }

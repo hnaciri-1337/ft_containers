@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:35:14 by hnaciri-          #+#    #+#             */
-/*   Updated: 2022/12/31 16:57:01 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:07:21 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ namespace	ft
 			typedef	size_t						size_type;
 			typedef	typename Container::reference		reference;
 			typedef	typename Container::const_reference	const_reference;
-
 		explicit	stack (const container_type& ctnr = container_type()) : _vec (ctnr){}
 		bool		empty() const
 		{
