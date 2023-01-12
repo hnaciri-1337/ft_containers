@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 12:50:42 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/03 14:33:22 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:17:32 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace	ft
 		iterator_type	__i;
 	public:
 		// Constructor & Destructor
-	  	reverse_iterator() : __i(nullptr) {}
+	  	reverse_iterator() : __i() {}
 		reverse_iterator(pointer ptr) : __i(ptr) {}
 		reverse_iterator(iterator_type _it) : __i(_it) {}
 		template <class Iter>

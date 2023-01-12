@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/11 18:09:35 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:04:15 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -549,6 +549,10 @@ namespace	ft
 					break;
 			}
 			return (successor);
+		}
+		Node<key, val, Alloc>	*get_root() const
+		{
+			return (_root);
 		}
 		Node<key, val, Alloc>	*get_root()
 		{

@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/11 17:36:55 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:30:23 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ namespace	ft
 			}
 			const mapped_type& at (const key_type& k) const
 			{
-				iterator	it = find(k);
+				iterator	it = iterator (find(k));
 				if (it == end())
 					throw std::out_of_range("map::at:  key not found");
 				else
@@ -129,7 +129,8 @@ namespace	ft
 			}
 			void erase (iterator position)
 			{
-				_map.erase (position->first);
+				if (position != end())
+					_map.erase (position->first);
 			}
 			void erase (iterator first, iterator last)
 			{
@@ -170,7 +171,7 @@ namespace	ft
 			}
 			reverse_iterator	rend ()
 			{
-				return (iterator());
+				return (iterator(nullptr));
 			}
 			const_reverse_iterator	rbegin () const
 			{
@@ -179,7 +180,7 @@ namespace	ft
 			}
 			const_reverse_iterator	rend () const
 			{
-				return (iterator());
+				return (iterator(nullptr));
 			}
 			void				clear ()
 			{
@@ -187,7 +188,7 @@ namespace	ft
 			}
 			bool				empty() const
 			{
-				return (!!(size()));
+				return (!size());
 			}
 			size_type			count (const key_type& k) const
 			{
@@ -207,11 +208,11 @@ namespace	ft
 			}
 			iterator find (const key_type& k)
 			{
-				return (_map.find_node(k));
+				return (iterator(_map.find_node(k)));
 			}
 			const_iterator find (const key_type& k) const
 			{
-				return (_map.find_node(k));
+				return (iterator(_map.find_node(k)));
 			}
 			allocator_type get_allocator() const
 			{
@@ -227,19 +228,19 @@ namespace	ft
 			}
 			iterator lower_bound (const key_type& k)
 			{
-				return (_map.lower_bound(k));
+				return (iterator(_map.lower_bound(k)));
 			}
 			const_iterator lower_bound (const key_type& k) const
 			{
-				return (_map.lower_bound(k));
+				return (iterator(_map.lower_bound(k)));
 			}
 			iterator upper_bound (const key_type& k)
 			{
-				return (_map.upper_bound(k));
+				return (iterator(_map.upper_bound(k)));
 			}
 			const_iterator upper_bound (const key_type& k) const
 			{
-				return (_map.upper_bound(k));
+				return (iterator(_map.upper_bound(k)));
 			}
 			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 			{
