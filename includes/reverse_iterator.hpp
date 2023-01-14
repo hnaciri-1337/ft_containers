@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 12:50:42 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/12 14:17:32 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:45:08 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@ namespace	ft
 		}
 		reference operator*()
 		{
-			return(*__i);
+			iterator_type	temp = __i;
+			temp--;
+			return(*temp);
 		}
 		reference operator*() const
 		{
-			return(*__i);
+			iterator_type	temp = __i;
+			temp--;
+			return(*temp);
 		}
 		reverse_iterator	&operator++() 
 		{
@@ -108,7 +112,7 @@ namespace	ft
 		reference	operator[] (difference_type __n) const
 		{
 			long long int	_n = -1 * __n;
-			return (__i[_n]);
+			return (__i[_n - 1]);
 		}
 	};
 	template <class _Iter1, class _Iter2>

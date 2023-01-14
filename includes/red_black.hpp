@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:32:51 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/12 14:04:15 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:19:41 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -550,13 +550,17 @@ namespace	ft
 			}
 			return (successor);
 		}
-		Node<key, val, Alloc>	*get_root() const
+		Node<key, val, Alloc>	*const*get_root() const
 		{
-			return (_root);
+			return (&_root);
 		}
-		Node<key, val, Alloc>	*get_root()
+		void				set_size(size_t __size)
 		{
-			return (_root);
+			_size = __size;
+		}
+		void				set_root(Node<key, val, Alloc>	*rt)
+		{
+			_root = rt;
 		}
 		bool	insert (const ft::pair <key, val> &_data)
 		{

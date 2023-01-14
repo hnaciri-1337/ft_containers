@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/12 17:30:23 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:56:04 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,17 @@ namespace	ft
 			typedef ft::reverse_iterator<const_iterator>														const_reverse_iterator;
 			typedef ptrdiff_t																					difference_type;
 			typedef size_t																						size_type;
-		public :
+		private :
 			key_compare												c;
 			allocator_type											a;
 			ft::redblack_tree<Key, T, key_compare, allocator_type>	_map;
+			void	print ()
+			{
+				_map.print (_map.get_root());
+			}
 		public :
 			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : c(comp), a(alloc) {}
-			template <class InputIterator> 
+			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : c(comp), a(alloc)
 			{
 				while (first != last)
@@ -105,7 +109,7 @@ namespace	ft
 				bool						var;
 			
 				var = _map.insert (val);
-				ret.first = iterator (_map.find_node (val.first));
+				ret.first = iterator (_map.find_node (val.first), _map.get_root());
 				ret.second = var;
 				return (ret);
 			}
@@ -142,45 +146,47 @@ namespace	ft
 					first = temp;
 				}
 			}
-			void	print ()
-			{
-				_map.print (_map.get_root());
-			}
 			iterator	begin ()
 			{
 				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
-				return (iterator (_min));
+				return (iterator (_min, _map.get_root()));
 			}
 			const_iterator	begin () const
 			{
 				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
-				return (iterator (_min));
+				return (iterator (_min, _map.get_root()));
 			}
 			iterator	end ()
 			{
-				return (iterator());
+				return (iterator(nullptr, _map.get_root()));
 			}
 			const_iterator	end () const
 			{
-				return (iterator());
+				return (iterator(nullptr, _map.get_root()));
 			}
 			reverse_iterator	rbegin ()
 			{
 				Node<key_type, mapped_type, allocator_type>	*_max = _map.get_max();
-				return (iterator (_max));
+				iterator __a = iterator(_max, _map.get_root());
+				__a++;
+				return (__a);
 			}
 			reverse_iterator	rend ()
 			{
-				return (iterator(nullptr));
+				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
+				return (iterator(_min, _map.get_root()));
 			}
-			const_reverse_iterator	rbegin () const
+			reverse_iterator	rbegin () const
 			{
 				Node<key_type, mapped_type, allocator_type>	*_max = _map.get_max();
-				return (iterator (_max));
+				iterator __a = iterator(_max, _map.get_root());
+				__a++;
+				return (__a);
 			}
-			const_reverse_iterator	rend () const
+			reverse_iterator	rend () const
 			{
-				return (iterator(nullptr));
+				Node<key_type, mapped_type, allocator_type>	*_min = _map.get_min();
+				return (iterator(_min, _map.get_root()));
 			}
 			void				clear ()
 			{
@@ -208,11 +214,11 @@ namespace	ft
 			}
 			iterator find (const key_type& k)
 			{
-				return (iterator(_map.find_node(k)));
+				return (iterator(_map.find_node(k), _map.get_root()));
 			}
 			const_iterator find (const key_type& k) const
 			{
-				return (iterator(_map.find_node(k)));
+				return (iterator(_map.find_node(k), _map.get_root()));
 			}
 			allocator_type get_allocator() const
 			{
@@ -228,19 +234,19 @@ namespace	ft
 			}
 			iterator lower_bound (const key_type& k)
 			{
-				return (iterator(_map.lower_bound(k)));
+				return (iterator(_map.lower_bound(k), _map.get_root()));
 			}
 			const_iterator lower_bound (const key_type& k) const
 			{
-				return (iterator(_map.lower_bound(k)));
+				return (iterator(_map.lower_bound(k), _map.get_root()));
 			}
 			iterator upper_bound (const key_type& k)
 			{
-				return (iterator(_map.upper_bound(k)));
+				return (iterator(_map.upper_bound(k), _map.get_root()));
 			}
 			const_iterator upper_bound (const key_type& k) const
 			{
-				return (iterator(_map.upper_bound(k)));
+				return (iterator(_map.upper_bound(k), _map.get_root()));
 			}
 			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 			{
@@ -252,9 +258,18 @@ namespace	ft
 			}
 			void swap (map& x)
 			{
-				map	a = x;
-				x = *this;
-				*this = a;
+				key_compare												_c = this->c;
+				allocator_type											_a = this->a;
+				this->c = x.c;
+				this->a = x.a;
+				x.c = _c;
+				x.a = _a;
+				ft::Node<Key, T, allocator_type> *a = *x._map.get_root();
+				x._map.set_root(*this->_map.get_root());
+				this->_map.set_root(a);
+				size_type	s = this->_map.size();
+				this->_map.set_size(x._map.size());
+				x._map.set_size(s);
 			}
 			~map() {};
 	};

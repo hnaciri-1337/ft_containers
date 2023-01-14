@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 18:33:12 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/11 23:05:40 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:43:13 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,19 +114,19 @@ namespace	ft
 			}
 			reverse_iterator		rbegin()
 			{
-				return (reverse_iterator(_array + _size - 1));
+				return (reverse_iterator(_array + _size));
 			}
 			const_reverse_iterator	rbegin() const
 			{
-				return (reverse_iterator(_array + _size - 1));
+				return (reverse_iterator(_array + _size));
 			}
 			reverse_iterator		rend()
 			{
-				return (reverse_iterator(_array - 1));
+				return (reverse_iterator(_array));
 			}
 			const_reverse_iterator	rend() const
 			{
-				return (reverse_iterator(_array - 1));
+				return (reverse_iterator(_array));
 			}
 			// | CAPACITY |
 			size_type				size() const

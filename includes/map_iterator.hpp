@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:54:56 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/12 18:30:03 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 13:07:05 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ namespace	ft
 		typedef typename ft::iterator_traits<iterator_type, std::bidirectional_iterator_tag>::pointer			pointer;
 		typedef typename ft::iterator_traits<iterator_type, std::bidirectional_iterator_tag>::reference			reference;
 	private:
-		node	__i;
+		node			__i;
+		node const		*__root;
 		node	predecessor(node _node)
 		{
 			node	cur = _node->left;
@@ -64,25 +65,27 @@ namespace	ft
 			}
 			return (parent);
 		}
+		node	base() const
+		{
+			return (this->__i);
+		}
 	public:
 		// Constructor & Destructor
-	  	__red_black_iterator() : __i(nullptr) {}
-		__red_black_iterator(node ptr) : __i(ptr) {}
+	  	__red_black_iterator() : __i(nullptr), __root(nullptr) {}
+		__red_black_iterator(node ptr, node const*_root) : __i(ptr), __root(_root) {}
 		template <class a, class _node>
-		__red_black_iterator (const __red_black_iterator<a, _node>& it) : __i(it.base()) {}
+		__red_black_iterator (const __red_black_iterator<a, _node>& it) : __i(it.__i), __root(&(*it.__root)) {}
 		__red_black_iterator(__red_black_iterator const &src){*this = src;}
 		virtual ~__red_black_iterator() {}
 		template <class a, class _node>
 		__red_black_iterator &operator=(__red_black_iterator<a, _node> const &it)
 		{
-			this->__i = it.base();
+			this->__i = it.__i;
+			this->__root = &(*it.__root);
 			return (*this);
 		}
+
 		// Operators
-		node	base() const
-		{
-			return (this->__i);
-		}
 		reference operator*() const
 		{
 			return(*(__i->value));
@@ -94,7 +97,11 @@ namespace	ft
 		__red_black_iterator	&operator++()
 		{
 			if (__i == nullptr)
-				return (*this);
+			{
+				__i = *__root;
+				while (__i->left)
+					__i = __i->left;	
+			}
 			__i = successor(__i);
 			return (*this);
 		}
@@ -107,7 +114,11 @@ namespace	ft
 		__red_black_iterator	&operator--()
 		{
 			if (__i == nullptr)
-				return (*this);
+			{
+				__i = *__root;
+				while (__i->right)
+					__i = __i->right;	
+			}
 			else
 				__i = predecessor(__i);
 			return (*this);
@@ -122,6 +133,16 @@ namespace	ft
 		{
 			return (&(operator*()));
 		}
+		pointer	operator->()  const
+		{
+			return (&(operator*()));
+		}
+		template <class __pair, class _node>
+		friend class __red_black_iterator;
+		template <class a, class node1, class b, class node2>
+		friend bool	operator != (const __red_black_iterator<a, node1>& __x, const __red_black_iterator<b, node2>& __y);
+		template <class a, class node1, class b, class node2>
+		friend bool	operator == (const __red_black_iterator<a, node1>& __x, const __red_black_iterator<b, node2>& __y);
 	};
 	template <class a, class node1, class b, class node2>
 	bool	operator == (const __red_black_iterator<a, node1>& __x, const __red_black_iterator<b, node2>& __y)
