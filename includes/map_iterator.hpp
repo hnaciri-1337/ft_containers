@@ -6,14 +6,13 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:54:56 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/14 13:07:05 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:28:36 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_ITERATOR
 #define MAP_ITERATOR
 
-#include "includes.hpp"
 #include "red_black.hpp"
 
 namespace	ft

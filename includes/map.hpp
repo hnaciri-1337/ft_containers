@@ -6,14 +6,17 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:16:32 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/14 14:56:04 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:33:07 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MAP_HPP
 # define MAP_HPP
 
-#include "includes.hpp"
+#include "red_black.hpp"
+#include "pair.hpp"
+#include "reverse_iterator.hpp"
+#include "map_iterator.hpp"
 
 namespace	ft
 {
