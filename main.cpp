@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/14 16:29:16 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:23:29 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,33 @@
 #include <vector>
 #include <iostream>
 #include <set>
-#include "includes/includes.hpp"
-#include "file.hpp"
 #include <map>
+#include <stack>
+#include "includes/vector.hpp"
+#include "includes/stack.hpp"
+#include "includes/set.hpp"
+#include "includes/map.hpp"
+#include "includes/equal.hpp"
 
-template<class T>
-void	ft_print_vector(ft::vector<T> &_vec)
+template<typename typC> std::ostream &operator << (std::ostream &_cout,ft::vector<typC> &_vec)
 {
-	std::cout << "[";
-	for (size_t i = 0; i < _vec.size() - 1; i++)
-		std::cout << _vec[i] << ",";
-	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
+	for (int i = 0; i < _vec.size() - 1; i++)
+		_cout << _vec[i] << " ";
+	_cout << _vec[_vec.size() - 1] << std::endl;
+	return (_cout);
 }
 
-template<class T>
-void	std_print_vector(std::vector<T> &_vec)
+template<typename typC> std::ostream &operator << (std::ostream &_cout,std::vector<typC> &_vec)
 {
-	std::cout << "[";
-	for (size_t i = 0; i < _vec.size() - 1; i++)
-		std::cout << _vec[i] << ",";
-	std::cout << _vec[_vec.size() - 1] << "]" << std::endl;
-}
-
-void _print(const int& x)
-{
-    std::cout << x << '\n';
+	for (int i = 0; i < _vec.size() - 1; i++)
+		_cout << _vec[i] << " ";
+	_cout << _vec[_vec.size() - 1] << std::endl;
+	return (_cout);
 }
 
 std::string gen_random(const int len)
 {
+	srand(time(nullptr));
     static const char alphanum[] =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -57,388 +55,1028 @@ std::string gen_random(const int len)
     return tmp_s;
 }
 
-// struct student
-// {
-// 	std::string login;
-// 	struct student *next;
-// };
+template <class T>
+bool operator == (const ft::vector<T>& ft_vec, const std::vector<T>& std_vec)
+{
+	if (ft_vec.size() != std_vec.size() || ft_vec.capacity() != std_vec.capacity())
+		return (false);
+	for (size_t i = 0; i < std_vec.size(); i++)
+	{
+		if (std_vec[i] != ft_vec[i])
+			return (false);
+	}
+	return (true);
+}
 
-class bb{
-	public:
-		bb(){}
-		~bb()
-		{
-			std::cout << "hi" << std::endl;
-		}
-};
+template <class T>
+bool operator == (ft::stack<T> ft_stack, std::stack<T> std_stack)
+{
+	if (ft_stack.size() != std_stack.size())
+		return (false);
+	while (!ft_stack.empty())
+	{
+		if (ft_stack.top() != std_stack.top())
+			return (false);
+		ft_stack.pop();
+		std_stack.pop();
+	}
+	return (true);
+}
+
+template <class key, class val>
+bool operator == (const ft::pair<key, val>& ft_pair, const std::pair<key, val>& std_pair)
+{
+	return (ft_pair.first == std_pair.first && ft_pair.second == std_pair.second);
+}
+
+template <class key, class val>
+bool operator != (const ft::pair<key, val>& ft_pair, const std::pair<key, val>& std_pair)
+{
+	return (!(ft_pair == std_pair));
+}
+
+template <class key, class val>
+bool operator == (ft::map<key, val>& ft_map, std::map<key, val>& std_map)
+{
+	if (ft_map.size() != std_map.size())
+		return (false);
+	return (true);
+	typename ft::map<key, val>::iterator first1 = ft_map.begin();
+	typename ft::map<key, val>::iterator last1 = ft_map.end();
+	typename std::map<key, val>::iterator first2 = std_map.begin();
+	for (; first1 != last1; first1++, first2++)
+		if (*first1 != *first2)
+			return (false);
+	return (true);
+}
+
+template <class key>
+bool operator == (ft::set<key>& ft_map, std::set<key>& std_map)
+{
+	if (ft_map.size() != std_map.size())
+		return (false);
+	return (true);
+	typename ft::set<key>::iterator first1 = ft_map.begin();
+	typename ft::set<key>::iterator last1 = ft_map.end();
+	typename std::set<key>::iterator first2 = std_map.begin();
+	for (; first1 != last1; first1++, first2++)
+		if (*first1 != *first2)
+			return (false);
+	return (true);
+}
+
+#define EQUAL(s, x) {std::cout << "\t\t\t\t\t\t" << s << "\t["; if (x) std::cout << "\033[32mOK\033[0m";else std::cout << "\033[31mKO\033[0m";std::cout << "]" << std::endl;}
 
 int	main()
 {
-	// {
-	// 	ft::vector<int>		ft_vec;
-	// 	std::vector<int>	std_vec;
-
-	// 	for(int i = 0; i < 10; i++)
-	// 	{
-	// 		int	_a = rand() % 100;
-	// 		ft_vec.push_back(_a);
-	// 		std_vec.push_back(_a);
-	// 	}
-	// 	std::cout << std_vec.size() << "|" << std_vec.capacity() << std::endl;
-	// 	std_print_vector(std_vec);
-	// 	std::cout << ft_vec.size() << "|" << ft_vec.capacity() << std::endl;
-	// 	ft_print_vector(ft_vec);
-	// 	std_vec.resize(18, -8748);
-	// 	ft_vec.resize(18, -8748);
-	// 	std::cout << "--------------------" << std::endl;
-	// 	std::cout << std_vec.size() << "|" << std_vec.capacity() << std::endl;
-	// 	std_print_vector(std_vec);
-	// 	std::cout << ft_vec.size() << "|" << ft_vec.capacity() << std::endl;
-	// 	ft_print_vector(ft_vec);
-	// }
-	// std::cout << "______________________________________________" << std::endl;
-	// {
-	// 	std::vector<int>	_vec1(21, 3);
-	// 	ft::vector<int>		_vec2(21, 3);
-
-	// 	std_print_vector(_vec1);
-	// 	ft_print_vector(_vec2);
-	// 	_vec1.assign(17, 1);
-	// 	_vec2.assign(17, 1);
-	// 	std::cout << _vec1.capacity() << " | " << _vec1.size() << std::endl;
-	// 	std_print_vector(_vec1);
-	// 	std::cout << _vec2.capacity() << " | " << _vec2.size() << std::endl;
-	// 	ft_print_vector(_vec2);
-	// }
-	// std::cout << "______________________________________________" << std::endl;
-	// {
-	// 	std::vector<int>	_vec1;
-	// 	ft::vector<int>		_vec2;
-
-	// 	for(int i = 0; i < 7; i++)
-	// 	{
-	// 		int	_a = rand() % 100;
-	// 		_vec1.push_back(_a);
-	// 		_vec2.push_back(_a);
-	// 	}
-	// 	std::cout << "size : " << _vec1.size() << "| capacity : " << _vec1.capacity() << std::endl;
-	// 	std_print_vector(_vec1);
-	// 	std::vector<int>::iterator _it = _vec1.insert(_vec1.begin() + 3, 7, 9);
-	// 	std::cout << "size : " << _vec1.size() << "| capacity : " << _vec1.capacity() << std::endl;
-	// 	std_print_vector(_vec1);
-	// 	std::cout << *_it << std::endl;
-	// 	std::cout << "--------------------" << std::endl;
-	// 	std::cout << "size : " << _vec2.size() << "| capacity : " << _vec2.capacity() << std::endl;
-	// 	ft_print_vector(_vec2);
-	// 	ft::vector<int>::iterator __it = _vec2.insert(_vec2.begin() + 3, 7, 9);
-	// 	std::cout << "size : " << _vec2.size() << "| capacity : " << _vec2.capacity() << std::endl;
-	// 	ft_print_vector(_vec2);
-	// 	std::cout << *__it << std::endl;
-	// }
-	// {
-	// 	std::vector<int>	_vec1, _vec2;
-	// 	ft::vector<int>		_vec3, _vec4;
-
-	// 	for (int i = 0; i < 10; i++)
-	// 	{
-	// 		int	a = rand() % 100;
-
-	// 		_vec1.push_back(a);
-	// 		_vec3.push_back(a);
-	// 	}
-	// 	for (int i = 0; i < 10; i++)
-	// 	{
-	// 		int	a = rand() % 100;
-
-	// 		_vec2.push_back(a);
-	// 		_vec4.push_back(a);
-	// 	}
-	// 	std_print_vector(_vec1);
-	// 	ft_print_vector(_vec3);
-	// 	std::cout << "-----------------------" << std::endl;
-	// 	std_print_vector(_vec2);
-	// 	ft_print_vector(_vec4);
-	// 	std::cout << "-----------------------" << std::endl;
-	// 	_vec1.insert(_vec1.begin() + 3, _vec2.begin() + 2 , _vec2.end() - 3);
-	// 	_vec3.insert(_vec3.begin() + 3, _vec4.begin() + 2 , _vec4.end() - 3);
-	// 	std_print_vector(_vec1);
-	// 	ft_print_vector(_vec3);
-	// }
-	// {
-	// 	ft::vector<std::string>	_vec;
-
-	// 	std::string s_string[32] =
-	// 	{                                                                   \
-	// 		"QExoqp0nICr0sXsHqty2", "naax9QcpJhvaL7DezsNQ", "25ZTtB6wbptfbxM8AvHB",                    \
-	// 		"tShYNtc0MkdjqLrOatgz", "7Z3kf1Qec0NnsLSEpbOt", "WhkSNrKJC966fvjZ2Or1",                    \
-	// 		"8vlxlFRRgW7yYj4GO7dt", "5sq1aoT8zP0HaHj3nFOK", "61Dv31GYZhkgjKCErpng",                    \
-	// 		"l0IIcWWHhOcPzoxEamQM", "bE1RYclskwXlhCm46YFs", "kXeoi5qz94JYPqSDTs79",                    \
-	// 		"TFsQP1dz8VVos9KzUpY0", "b3wYQR7An193gjgYuRj3", "xSmyNsnSJ47jLqrvbpyr",                    \
-	// 		"guAIP2Wq43Gf8VhHsyu5", "yT6c2loPebHovnq9BQog", "3qvU1xcVm2g1DKFDlqh4",                    \
-	// 		"L0q8RR9P41VD4sVjdnWl", "YdjESsIZM4b1oGQPjpBe", "l1ZVQbWKw7brHUSimJgq",                    \
-	// 		"xdn0cf4vqRzpfXWtl10G", "lYnZvpqaV0s8DowMZwzV", "8P1cyKrwJNLoJyvLjYqO",                    \
-	// 		"4MhOXNbAX23CEijO5cRT", "tHe3miAwCOVQbuoLaEP2", "l6uNLsc8fiLl3eWoG6j6",                    \
-	// 		"477xt6l0lph9ALQdr4HX", "D9UJNe4s8YF02LhrwOdl", "dLCisBNOdE8yugntu6cj",                    \
-	// 		"YvY4aQFHgAuagn4dFLO1", "eGR6Dtv7LW75qlV5Fkik"                                             \
-    // 	};
-	// 	_vec.insert(_vec.begin(), s_string, s_string + 32);
-	// 	ft_print_vector(_vec);
-	// }
-	// {
-	// 	ft::vector<int> foo (3,100);   // three ints with a value of 100
-	// 	ft::vector<int> bar (5,200);   // five ints with a value of 200
-
-	// 	foo.swap(bar);
-
-	// 	std::cout << "foo contains:";
-	// 	ft_print_vector(foo);
-	// 	std::cout << "bar contains:";
-	// 	ft_print_vector(bar);
-	// }
-	// {
-	// 	{
-	// 		std::cout << "char : " << std::vector<char>().max_size() << std::endl;
-	// 		std::cout << "char : " << ft::vector<char>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "unsigned char : " << std::vector<unsigned char>().max_size() << std::endl;
-	// 		std::cout << "unsigned char : " << ft::vector<unsigned char>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "int : " << std::vector<int>().max_size() << std::endl;
-	// 		std::cout << "int : " << ft::vector<int>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "unsigned int : " << std::vector<unsigned int>().max_size() << std::endl;
-	// 		std::cout << "unsigned int : " << ft::vector<unsigned int>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "std::string : " << std::vector<std::string>().max_size() << std::endl;
-	// 		std::cout << "std::string : " << ft::vector<std::string>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "long : " << std::vector<long>().max_size() << std::endl;
-	// 		std::cout << "long : " << ft::vector<long>().max_size() << std::endl;
-	// 	}
-	// 	{
-	// 		std::cout << "unsigned long long : " << std::vector<unsigned long long>().max_size() << std::endl;
-	// 		std::cout << "unsigned long long : " << ft::vector<unsigned long long>().max_size() << std::endl;
-	// 	}
-	// }
-	// {
-	// 	ft::vector<int> v(5, 1);
-	// 	v.insert(v.begin(), 5, 2);
-    //     std::for_each(v.rbegin(), v.rend(), _print);
-	// }
-	// std::cout << "++++++++++++++++++++++++++++\n";
-	// {
-	// 	std::vector<int> v(5, 1);
-	// 	v.insert(v.begin(), 5, 2);
-    //     std::for_each(v.rbegin(), v.rend(), _print);
-	// }
-	// {
-	// 	ft::vector<int>					_vec;
-		
-	// 	for (int i = 0; i < 10; i++)
-	// 		_vec.push_back(rand() % 100);
-	// 	_vec.clear ();
-	// 	std::cout << _vec.size() << std::endl;
-	// }
-	// {
-	// 	std::vector<int>					_vec;
-		
-	// 	for (int i = 0; i < 10; i++)
-	// 		_vec.push_back(rand() % 100);
-	// 	_vec.clear ();
-	// 	std::cout << _vec.size() << std::endl;
-	// }
-	// {
-		// srand((unsigned)time(NULL));     
-		// ft::map <std::string, int>	_map;
-		// std::map <std::string, int>	__map;
-		// ft::vector<int>		_vec;
-	
-		// for (int i = 0; i < 11; ++i)
-		// {
-		// 	_vec.push_back ((rand() % 100));
-		// 	std::string	s = gen_random(10);
-		// 	__map.insert (std::make_pair(s, _vec[i]));
-		// 	_map.insert (ft::make_pair(s, _vec[i]));
-		// }
-		// __map["Hello"] = 99;
-		// _map["Hello"] = 99;
-		// for (ft::map<std::string, int>::iterator i = _map.begin(); i != _map.end(); i++)
-		// 	std::cout << i->first << " " << i->second << "|";
-		// std::cout << std::endl;
-		// for (std::map<std::string, int>::iterator i = __map.begin(); i != __map.end(); i++)
-		// 	std::cout << i->first << " " << i->second << "|";
-		// std::cout << std::endl;
-	// }
-	// {
-	// 	srand((unsigned)time(NULL));     
-	// 	ft::map <std::string, int>	_map, b;
-	// 	ft::vector<int>		_vec;
-	
-	// 	for (int i = 0; i < 11; ++i)
-	// 	{
-	// 		_vec.push_back ((rand() % 100));
-	// 		std::string	s = gen_random(10);
-	// 		_map.insert (ft::make_pair(s, _vec[i]));
-	// 	}
-	// 	b.insert(_map.begin(), _map.end());
-	// 	_map.print();
-	// 	std::cout << std::endl;
-	// 	b.print();
-	// 	std::cout << std::endl;
-	// }
-	// {
-	// 	ft::map <int, int>	_map;
-	// 	ft::vector<int>		_vec;
-	// 	_vec.push_back(60);
-	// 	_vec.push_back(35);
-	// 	_vec.push_back(28);
-	// 	_vec.push_back(90);
-	// 	_vec.push_back(71);
-	// 	_vec.push_back(17);
-	// 	_vec.push_back(40);
-	// 	_vec.push_back(29);
-	// 	_vec.push_back(41);
-	// 	_vec.push_back(51);
-	// 	for (int i = 0; i < 10; ++i)
-	// 	{
-	// 		_map.insert (ft::make_pair(_vec[i], _vec[i]));
-	// 		std::cout << _vec[i] << " ";
-	// 	}
-	// 	std::cout << std::endl;
-	// 	while (1)
-	// 	{
-	// 		std::cout << std::endl;
-	// 		printTree (_map._map.get_root(), nullptr, false);
-	// 		std::cout << "enter :";
-	// 		int a; std::cin >> a;
-	// 		if (a == -1) break ;
-	// 		_map.erase (a);
-	// 	}
-	// 	printTree (_map._map.get_root(), nullptr, false);
-	// 	while (1);
-	// }
-	// {
-	// 	ft::map<int, std::string> m;
-	// 	m.insert(ft::make_pair(23, "23n"));
-	// 	m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
-	// 	m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
-	// 	m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
-	// 	m.insert(ft::make_pair(3, "sssdfs"));
-	// 	m.insert(ft::make_pair(75, "dfse"));
-	// 	m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
-	// 	m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
-	// 	m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
-	// 	m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
-		
-	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
-    //     m.erase(0);
-    //     m.erase(75);
-    //     m.erase(1);
-    //     m.erase(2);
-	// 	m.erase(3);
-	// 	m.erase(23);
-	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
-	// 	m.erase(30);
-	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
-	// 	m.erase(-23);
-	// 	printTree (m._map.get_root(), nullptr, false); std::cout << std::endl;
-	// 	m.erase(-22);
-	// 	m.erase(25);
-	// }
-	// {
-	// 	ft::map<int, int>	_map;
-	// 	try
-	// 	{
-	// 		_map.at(5);
-	// 	}
-	// 	catch(const std::exception& e)
-	// 	{
-	// 		std::cerr << e.what() << '\n';
-	// 	}
-	// }
-	// {
-	// 	ft::map<int, std::string>	m;
-	// 	m.insert(ft::make_pair(23, "23n"));
-    //     m.insert(ft::make_pair(25, "asdasdfsdfsafdsf"));
-    //     m.insert(ft::make_pair(1, "asdssdfdfdffffff"));
-    //     m.insert(ft::make_pair(2, "dsfdffffdfdfdsdfdffa"));
-    //     m.insert(ft::make_pair(3, "sssdfs"));
-    //     m.insert(ft::make_pair(75, "dfse"));
-    //     m.insert(ft::make_pair(30, "sefsadfasdfasdfsadfasdfsf"));
-    //     m.insert(ft::make_pair(-22, "dfhkihgbnfbcx5reterjhd"));
-    //     m.insert(ft::make_pair(-23, "sdffgdfgrefet34thfgheewt"));
-    //     m.insert(ft::make_pair(0, "98y4rtuohwidsjusdossefsse"));
-
-	// 	while (1)
-	// 	{
-	// 		printTree (m._map.get_root(), nullptr, false);
-	// 		int	a;
-	// 		std::cout << "\nenter : ";
-	// 		cin >> a;
-	// 		if (a == -1)
-	// 			break ;
-	// 		m.erase (a);
-	// 	}
-	// 	printTree (m._map.get_root(), nullptr, false);
-	// }
-	// {
-	// 	srand(time(nullptr));
-	// 	int	array[] = {61, 27, 64, 75, 1, 81, 16, 7, 84, 39, 87, 31, 50, 57, 24, 31, 72, 48, 15, 67};
-	// 	ft::map <char, int>	_map;
-	// 	ft::vector<int>		_vec(array, array + 20);
-	// 	for (int i = 0; i < 10; i++)
-	// 	{
-	// 		_map.insert (ft::make_pair(gen_random(7)[0], _vec[i]));
-	// 	}
-	// 	while (1)
-	// 	{
-	// 		// std::cout << _map._map.get_root()->value->first << std::endl;
-	// 		printTree (_map._map.get_root(), nullptr, false);
-	// 		std::cout << "enter :";
-	// 		std::string a; std::cin >> a;
-	// 		if (a == "-1") break ;
-	// 		_map.erase (a[0]);
-	// 	}
-	// 	printTree (_map._map.get_root(), nullptr, false);
-	// 	while (1);
-	// }
-	// {
-	// 	ft::map<int, int>	a, b;
-
-	// 	for (int i = 0; i < 10; i++)
-	// 	{
-	// 		if (i < 5)
-	// 			a.insert(ft::make_pair(i + 1, i + 1));
-	// 		else
-	// 			b.insert(ft::make_pair(i + 1, i + 1));
-	// 	}
-	// 	for (ft::map<int, int>::iterator it = a.begin(); it != a.end(); it++)
-	// 		std::cout << it->first << " ";
-	// 	std::cout << std::endl;
-	// 	for (ft::map<int, int>::iterator it = b.begin(); it != b.end(); it++)
-	// 		std::cout << it->first << " ";
-	// 	std::cout << std::endl;
-	// 	ft::swap(a, b);
-	// 	for (ft::map<int, int>::iterator it = a.begin(); it != a.end(); it++)
-	// 		std::cout << it->first << " ";
-	// 	std::cout << std::endl;
-	// 	for (ft::map<int, int>::iterator it = b.begin(); it != b.end(); it++)
-	// 		std::cout << it->first << " ";
-	// 	std::cout << std::endl;
-	// }
 	{
-		std::set<int>	_set;
+		std::cout << "\t\t\t\t|\t\t\tTESTING VECTOR\t\t\t|" << std::endl << std::endl;
+		sleep(1);
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			EQUAL("Default constructor", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec1(5);
+			std::vector<int>	std_vec1(5);
+			ft::vector<int>		ft_vec2(5, 10);
+			std::vector<int>	std_vec2(5, 10);
+
+			EQUAL("Paramitrized constructor", ft_vec2 == std_vec2 && ft_vec1 == std_vec1);
+		}
+		{
+			std::vector<int>	_vec;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+				_vec.push_back(rand());
+
+			ft::vector<int>		ft_vec(_vec.begin(), _vec.end());
+			std::vector<int>	std_vec(_vec.begin(), _vec.end());
+			EQUAL("Iterator constructor", ft_vec == std_vec);
+		}
+		{
+			std::vector<int>	_vec1;
+			ft::vector<int>		_vec2;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand();
+				_vec1.push_back(a);
+				_vec2.push_back(a);
+			}
+				
+			ft::vector<int>		ft_vec(_vec2);
+			std::vector<int>	std_vec(_vec1);
+			EQUAL("Copy constructor", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			size_t	a = 0;
+			for (ft::vector<int>::iterator fit = ft_vec.begin(); fit != ft_vec.end(); fit++)
+				a += *fit;
+			size_t	b = 0;
+			for (std::vector<int>::iterator sit = std_vec.begin(); sit != std_vec.end(); sit++)
+				b += *sit;
+			EQUAL("Iterator test", ft_vec == std_vec && a == b);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			size_t	a = 0;
+			for (ft::vector<int>::reverse_iterator fit = ft_vec.rbegin(); fit != ft_vec.rend(); fit++)
+				a += *fit;
+			size_t	b = 0;
+			for (std::vector<int>::reverse_iterator sit = std_vec.rbegin(); sit != std_vec.rend(); sit++)
+				b += *sit;
+			EQUAL("Reverse_Iterator test", ft_vec == std_vec && a == b);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			EQUAL("Size, Capacity, Max_size test", (ft_vec == std_vec) && (ft_vec.size() == std_vec.size()) && (ft_vec.max_size() == std_vec.max_size()) && (ft_vec.capacity() == std_vec.capacity()));
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			for (int i = 0; i < 1000; i++)
+			{
+				int	a = rand() % 100;
+				ft_vec.resize(a);
+				std_vec.resize(a);
+			}
+			for (int i = 0; i < 1000; i++)
+			{
+				int	a = rand() % 100;
+				int	b = rand() % 1000;
+				ft_vec.resize(a, b);
+				std_vec.resize(a, b);
+			}
+			EQUAL("Resize test", (ft_vec == std_vec) && (ft_vec.size() == std_vec.size()) && (ft_vec.max_size() == std_vec.max_size()) && (ft_vec.capacity() == std_vec.capacity()));
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			EQUAL("Empty test", ft_vec == std_vec && ft_vec.empty() == std_vec.empty());
+			ft_vec.push_back(1);
+			std_vec.push_back(1);
+			EQUAL("Empty test", ft_vec == std_vec && ft_vec.empty() == std_vec.empty());
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			for (int i = 0; i < 1000; i++)
+			{
+				int	a = rand() % 100;
+				ft_vec.resize(a);
+				std_vec.resize(a);
+			}
+			EQUAL("Reserve test", (ft_vec == std_vec) && (ft_vec.size() == std_vec.size()) && (ft_vec.max_size() == std_vec.max_size()) && (ft_vec.capacity() == std_vec.capacity()));
+		}
+		{
+			ft::vector<int>		ft_vec(100);
+			std::vector<int>	std_vec(100);
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec[i] = _a;
+				std_vec[i] = _a;
+			}
+			EQUAL("[] operator test", (ft_vec == std_vec) && (ft_vec.size() == std_vec.size()) && (ft_vec.max_size() == std_vec.max_size()) && (ft_vec.capacity() == std_vec.capacity()));
+		}
+		{
+			ft::vector<int>		ft_vec(100);
+			std::vector<int>	std_vec(100);
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.at(i) = _a;
+				std_vec.at(i) = _a;
+			}
+			EQUAL("At test", (ft_vec == std_vec) && (ft_vec.size() == std_vec.size()) && (ft_vec.max_size() == std_vec.max_size()) && (ft_vec.capacity() == std_vec.capacity()));
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_vec.push_back(_a);
+				std_vec.push_back(_a);
+			}
+			EQUAL("Front, Back test", (ft_vec == std_vec) && (ft_vec.front() == std_vec.front()) && (ft_vec.back() && std_vec.back()));
+		}
+		{
+			std::vector<int>	_vec;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
 		
-		_set.insert(5);
-		std::set<int>::iterator _it = _set.begin();
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+				_vec.push_back(rand());
+
+			ft_vec.assign(_vec.begin(), _vec.end());
+			std_vec.assign(_vec.begin(), _vec.end());
+			for (int i  = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				int	b = rand() % 1000;
+				ft_vec.assign(a, b);
+				std_vec.assign(a, b);
+			}
+			EQUAL("Assign test", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec.push_back(a);
+				std_vec.push_back(a);
+			}
+			for (int i = 0; i < 1500; i++)
+			{
+				ft_vec.pop_back();
+				std_vec.pop_back();
+			}
+			EQUAL("Push_back, pop_back test", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+		
+			srand(time(nullptr));
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec.push_back(a);
+				std_vec.push_back(a);
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int a = rand() % 10000;
+				ft::vector<int>::iterator	ft_it = ft_vec.begin() + a;
+				std::vector<int>::iterator	std_it = std_vec.begin() + a;
+				int	val = rand() % 1000;
+				ft_vec.insert(ft_it, 100, val);
+				std_vec.insert(std_it, 100, val);
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int a = rand() % 10000;
+				ft::vector<int>::iterator	ft_it = ft_vec.begin() + a;
+				std::vector<int>::iterator	std_it = std_vec.begin() + a;
+				int	val = rand() % 1000;
+				ft_vec.insert(ft_it, val);
+				std_vec.insert(std_it, val);
+			}
+			EQUAL("Insert test", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec.push_back(a);
+				std_vec.push_back(a);
+			}
+			for (int i = 0; i < 1500; i++)
+			{
+				int a = rand() % ft_vec.size();
+				ft::vector<int>::iterator	ft_it = ft_vec.begin() + a;
+				std::vector<int>::iterator	std_it = std_vec.begin() + a;
+
+				ft_vec.erase(ft_it);
+				std_vec.erase(std_it);
+			}
+			EQUAL("Erase test", ft_vec == std_vec);
+		}
+		{
+			ft::vector<int>		ft_vec1, ft_vec2;
+			std::vector<int>	std_vec1, std_vec2;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec1.push_back(a);
+				std_vec1.push_back(a);
+				a = rand() % 1000;
+				ft_vec2.push_back(a);
+				std_vec2.push_back(a);
+			}
+			ft_vec1.swap(ft_vec2);
+			std_vec1.swap(std_vec2);
+			EQUAL("Swap test", (ft_vec1 == std_vec1 && ft_vec2 == std_vec2));
+		}
+		{
+			ft::vector<int>		ft_vec1;
+			std::vector<int>	std_vec1;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec1.push_back(a);
+				std_vec1.push_back(a);
+			}
+			ft_vec1.clear();
+			std_vec1.clear();
+			EQUAL("Clear test", ft_vec1 == std_vec1);
+		}
 	}
+	std::cout << "----------------------------------------------------" << std::endl;
 	{
-		ft::set<int>	_set;
-		ft::set<int>::iterator _it = _set.begin();
+		std::cout << "\t\t\t\t|\t\t\tTESTING MAP\t\t\t|" << std::endl << std::endl;
+		sleep(1);
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+
+			EQUAL("Default constructor", ft_map == std_map);
+		}
+		{
+			std::map<int, int>	_map1;
+			ft::map<int, int>	_map2;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int a = rand();
+				_map1.insert(std::make_pair(a, a));
+				_map2.insert(ft::make_pair(a, a));
+			}
+
+			std::map<int, int>	std_map(_map1.begin(), _map1.end());
+			ft::map<int, int>	ft_map(_map2.begin(), _map2.end());
+			EQUAL("Iterator constructor", ft_map == std_map);
+		}
+		{
+			std::map<int, int>	_map1;
+			ft::map<int, int>	_map2;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand();
+				_map1.insert(std::make_pair(a, a));
+				_map2.insert(ft::make_pair(a, a));
+			}
+				
+			ft::map<int, int>	ft_map(_map2);
+			std::map<int, int>	std_map(_map1);
+			EQUAL("Copy constructor", ft_map == std_map);
+		}
+		{
+			std::map<int, int>	_map1, std_map;
+			ft::map<int, int>	_map2, ft_map;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand();
+				_map1.insert(std::make_pair(a, a));
+				_map2.insert(ft::make_pair(a, a));
+			}
+			std_map = _map1;
+			ft_map = _map2;
+			EQUAL("Assignment operator", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_map.insert(ft::make_pair(_a, _a));
+				std_map.insert(std::make_pair(_a, _a));
+			}
+			size_t	a = 0;
+			for (ft::map<int, int>::iterator fit = ft_map.begin(); fit != ft_map.end(); fit++)
+				a += fit->second;
+			size_t	b = 0;
+			for (std::map<int, int>::iterator sit = std_map.begin(); sit != std_map.end(); sit++)
+				b += sit->second;
+			EQUAL("Iterator test", ft_map == std_map && a == b);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_map.insert(ft::make_pair(_a, _a));
+				std_map.insert(std::make_pair(_a, _a));
+			}
+			size_t	a = 0;
+			for (ft::map<int, int>::reverse_iterator fit = ft_map.rbegin(); fit != ft_map.rend(); fit++)
+				a += fit->second;
+			size_t	b = 0;
+			for (std::map<int, int>::reverse_iterator sit = std_map.rbegin(); sit != std_map.rend(); sit++)
+				b += sit->second;
+			EQUAL("Reverse_iterator test", ft_map == std_map && a == b);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+
+			srand(time(nullptr));
+			EQUAL("Empty test", ft_map == std_map && ft_map.empty() == std_map.empty());
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_map.insert(ft::make_pair(_a, _a));
+				std_map.insert(std::make_pair(_a, _a));
+			}
+			EQUAL("Empty test", ft_map == std_map && ft_map.empty() == std_map.empty());
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_map.insert(ft::make_pair(_a, _a));
+				std_map.insert(std::make_pair(_a, _a));
+			}
+			
+			EQUAL("Size test", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_map[i] = a;
+				std_map[i] = a;
+			}
+			
+			EQUAL("[] operator test", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_map.insert(ft::make_pair(i, a));
+				std_map.insert(std::make_pair(i, a));
+			}
+			for(int i = 0; i < 100; i++)
+			{
+				int a = rand() % 100;
+				ft_map.at(i) = a;
+				std_map.at(i) = a;
+			}
+			EQUAL("At test", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_map.insert(ft::make_pair(i, a));
+				std_map.insert(std::make_pair(i, a));
+			}
+			EQUAL("Insert test", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>		ft_map;
+			std::map<int, int>		std_map;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_map.insert(ft::make_pair(i, a));
+				std_map.insert(std::make_pair(i, a));
+			}
+			for(int i = 0; i < 50; i++)
+			{
+				int	a = rand() % 100;
+				ft_map.erase(a);
+				std_map.erase(a);
+			}
+			EQUAL("Erase test", ft_map == std_map);
+		}
+		{
+			ft::map<int, int>	ft_map1, ft_map2;
+			std::map<int, int>	std_map1, std_map2;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map1.insert(ft::make_pair(a, a));
+				std_map1.insert(std::make_pair(a, a));
+				a = rand() % 1000;
+				ft_map2.insert(ft::make_pair(a, a));
+				std_map2.insert(std::make_pair(a, a));
+			}
+			ft_map1.swap(ft_map2);
+			std_map1.swap(std_map2);
+			EQUAL("Swap test", (ft_map1 == std_map1 && ft_map2 == std_map2));
+		}
+		{
+			ft::map<int, int>	ft_map;
+			std::map<int, int>	std_map;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map.insert(ft::make_pair(a, a));
+				std_map.insert(std::make_pair(a, a));
+			}
+			ft_map.clear();
+			std_map.clear();
+			EQUAL("Clear test", (ft_map == std_map));
+		}
+		{
+			ft::map<int, int>					ft_map;
+			std::map<int, int>					std_map;
+			ft::vector<std::pair<int, int> >		ft_vec;
+			std::vector<std::pair<int, int> >	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map.insert(ft::make_pair(a, a));
+				std_map.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_map.find(a) != std_map.end())
+				{
+					ft::map<int, int>::iterator it = ft_map.find(a);
+					std::pair<int, int>	t(std::make_pair(it->first, it->second));
+					ft_vec.push_back(t);
+					std_vec.push_back(*std_map.find(a));
+				}
+			}
+			EQUAL("Find test", (ft_vec == std_vec));
+		}
+		{
+			ft::map<int, int>					ft_map;
+			std::map<int, int>					std_map;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map.insert(ft::make_pair(a, a));
+				std_map.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec.push_back(ft_map.count(a));
+				std_vec.push_back(std_map.count(a));
+			}
+			EQUAL("Count test", (ft_vec == std_vec));
+		}
+		{
+			ft::map<int, int>					ft_map;
+			std::map<int, int>					std_map;
+			ft::vector<std::pair<int, int> >		ft_vec;
+			std::vector<std::pair<int, int> >	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map.insert(ft::make_pair(a, a));
+				std_map.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_map.lower_bound(a) != std_map.end())
+				{
+					ft::map<int, int>::iterator it = ft_map.lower_bound(a);
+					std::pair<int, int>	t(std::make_pair(it->first, it->second));
+					ft_vec.push_back(t);
+					std_vec.push_back(*std_map.lower_bound(a));
+				}
+			}
+			EQUAL("Lowerbound test", (ft_vec == std_vec));
+		}
+		{
+			ft::map<int, int>					ft_map;
+			std::map<int, int>					std_map;
+			ft::vector<std::pair<int, int> >	ft_vec;
+			std::vector<std::pair<int, int> >	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_map.insert(ft::make_pair(a, a));
+				std_map.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_map.upper_bound(a) != std_map.end())
+				{
+					ft::map<int, int>::iterator it = ft_map.upper_bound(a);
+					std::pair<int, int>	t(std::make_pair(it->first, it->second));
+					ft_vec.push_back(t);
+					std_vec.push_back(*std_map.upper_bound(a));
+				}
+			}
+			EQUAL("Upperbound test", (ft_vec == std_vec));
+		}
+	}
+	std::cout << "----------------------------------------------------" << std::endl;
+	{
+		std::cout << "\t\t\t\t|\t\t\tTESTING STACK\t\t\t|" << std::endl << std::endl;
+		sleep(1);
+		{
+			ft::stack<int>	ft_stack;
+			std::stack<int>	std_stack;
+
+			EQUAL("Default constructor", ft_stack == std_stack);
+		}
+		{
+			ft::stack<int>	ft_stack;
+			std::stack<int>	std_stack;
+
+			for (int i = 0; i < 10000; i++)
+			{
+				int a = rand();
+				ft_stack.push(a);
+				std_stack.push(a);
+			}
+			EQUAL("Push, top test", ft_stack == std_stack);
+			for (int i = 0; i < 1000; i++)
+			{
+				ft_stack.pop();
+				std_stack.pop();
+			}
+			EQUAL("Pop, empty test", ft_stack == std_stack && ft_stack.empty() == std_stack.empty());
+		}
+	}
+	std::cout << "----------------------------------------------------" << std::endl;
+	{
+		std::cout << "\t\t\t\t|\t\t\tTESTING SET\t\t\t|" << std::endl << std::endl;
+		sleep(1);
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+
+			EQUAL("Default constructor", ft_set == std_set);
+		}
+		{
+			std::set<int>	_set1;
+			ft::set<int>	_set2;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int a = rand();
+				_set1.insert(a);
+				_set2.insert(a);
+			}
+
+			std::set<int>	std_set(_set1.begin(), _set1.end());
+			ft::set<int>	ft_set(_set2.begin(), _set2.end());
+			EQUAL("Iterator constructor", ft_set == std_set);
+		}
+		{
+			std::set<int>	_set1;
+			ft::set<int>	_set2;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand();
+				_set1.insert(a);
+				_set2.insert(a);
+			}
+				
+			ft::set<int>	ft_set(_set2);
+			std::set<int>	std_set(_set1);
+			EQUAL("Copy constructor", ft_set == std_set);
+		}
+		{
+			std::set<int>	_map1, std_map;
+			ft::set<int>	_map2, ft_map;
+			
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand();
+				_map1.insert(a);
+				_map2.insert(a);
+			}
+			std_map = _map1;
+			ft_map = _map2;
+			EQUAL("Assignment operator", ft_map == std_map);
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_set.insert(_a);
+				std_set.insert(_a);
+			}
+			size_t	a = 0;
+			for (ft::set<int>::iterator fit = ft_set.begin(); fit != ft_set.end(); fit++)
+				a += *fit;
+			size_t	b = 0;
+			for (std::set<int>::iterator sit = std_set.begin(); sit != std_set.end(); sit++)
+				b += *sit;
+			EQUAL("Iterator test", ft_set == std_set && a == b);
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_set.insert(_a);
+				std_set.insert(_a);
+			}
+			size_t	a = 0;
+			for (ft::set<int>::reverse_iterator fit = ft_set.rbegin(); fit != ft_set.rend(); fit++)
+				a += *fit;
+			size_t	b = 0;
+			for (std::set<int>::reverse_iterator sit = std_set.rbegin(); sit != std_set.rend(); sit++)
+				b += *sit;
+			EQUAL("Reverse_Iterator test", ft_set == std_set && a == b);
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+
+			srand(time(nullptr));
+			EQUAL("Empty test", ft_set == std_set && ft_set.empty() == std_set.empty());
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_set.insert(_a);
+				std_set.insert(_a);
+			}
+			EQUAL("Empty test", ft_set == std_set && ft_set.empty() == std_set.empty());
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	_a = rand() % 100;
+				ft_set.insert(_a);
+				std_set.insert(_a);
+			}
+			
+			EQUAL("Size test", ft_set == std_set);
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_set.insert(a);
+				std_set.insert(a);
+			}
+			EQUAL("Insert test", ft_set == std_set);
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			srand(time(nullptr));
+			for(int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 100;
+				ft_set.insert(a);
+				std_set.insert(a);
+			}
+			for(int i = 0; i < 50; i++)
+			{
+				int	a = rand() % 100;
+				ft_set.erase(a);
+				std_set.erase(a);
+			}
+			EQUAL("Erase test", ft_set == std_set);
+		}
+		{
+			ft::set<int>	ft_set1, ft_set2;
+			std::set<int>	std_set1, std_set2;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set1.insert(a);
+				std_set1.insert(a);
+				a = rand() % 1000;
+				ft_set2.insert(a);
+				std_set2.insert(a);
+			}
+			ft_set1.swap(ft_set2);
+			std_set1.swap(std_set2);
+			EQUAL("Swap test", (ft_set1 == std_set1 && ft_set2 == std_set2));
+		}
+		{
+			ft::set<int>	ft_set;
+			std::set<int>	std_set;
+		
+			srand(time(nullptr));
+
+			for (int i  = 0; i < 10000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set.insert(a);
+				std_set.insert(a);
+			}
+			ft_set.clear();
+			std_set.clear();
+			EQUAL("Clear test", (ft_set == std_set));
+		}
+		{
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set.insert(a);
+				std_set.insert(a);
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_set.find(a) != std_set.end())
+				{
+					ft_vec.push_back(*ft_set.find(a));
+					std_vec.push_back(*std_set.find(a));
+				}
+			}
+			EQUAL("Find test", (ft_vec == std_vec));
+		}
+		{
+			ft::set<int>					ft_set;
+			std::set<int>					std_set;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set.insert(ft::make_pair(a, a));
+				std_set.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				ft_vec.push_back(ft_set.count(a));
+				std_vec.push_back(std_set.count(a));
+			}
+			EQUAL("Count test", (ft_vec == std_vec));
+		}
+		{
+			ft::set<int>					ft_set;
+			std::set<int>					std_set;
+			ft::vector<std::pset<int> >		ft_vec;
+			std::vector<std::pset<int> >	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set.insert(ft::make_pair(a, a));
+				std_set.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_set.lower_bound(a) != std_set.end())
+				{
+					ft::set<int>::iterator it = ft_set.lower_bound(a);
+					std::pset<int>	t(std::make_pair(it->first, it->second));
+					ft_vec.push_back(t);
+					std_vec.push_back(*std_set.lower_bound(a));
+				}
+			}
+			EQUAL("Lowerbound test", (ft_vec == std_vec));
+		}
+		{
+			ft::set<int>					ft_set;
+			std::set<int>					std_set;
+			ft::vector<std::pset<int> >	ft_vec;
+			std::vector<std::pset<int> >	std_vec;
+	
+			srand(time(nullptr));
+			for (int i  = 0; i < 1000; i++)
+			{
+				int	a = rand() % 1000;
+				ft_set.insert(ft::make_pair(a, a));
+				std_set.insert(std::make_pair(a, a));
+			}
+			for (int i = 0; i < 100; i++)
+			{
+				int	a = rand() % 1000;
+				if (std_set.upper_bound(a) != std_set.end())
+				{
+					ft::set<int>::iterator it = ft_set.upper_bound(a);
+					std::pset<int>	t(std::make_pair(it->first, it->second));
+					ft_vec.push_back(t);
+					std_vec.push_back(*std_set.upper_bound(a));
+				}
+			}
+			EQUAL("Upperbound test", (ft_vec == std_vec));
+		}
 	}
 }

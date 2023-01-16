@@ -2,7 +2,7 @@ SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 INCLUDES = includes/*.hpp
 CC = c++
-FLAGS = -Wall -Wextra -Werror -std=c++98 #-D STD
+FLAGS = -Wall -Wextra -Werror -std=c++98
 NAME = containers
 
 .cpp.o:
