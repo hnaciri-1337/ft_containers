@@ -11,7 +11,6 @@ NAME = containers
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${INCLUDES}
-	rm -rf .vscode
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}
 
 clean:

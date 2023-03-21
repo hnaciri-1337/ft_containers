@@ -6,7 +6,7 @@
 /*   By: hnaciri- <hnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:04:40 by hnaciri-          #+#    #+#             */
-/*   Updated: 2023/01/16 15:23:29 by hnaciri-         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:46:51 by hnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,6 @@
 #include "includes/set.hpp"
 #include "includes/map.hpp"
 #include "includes/equal.hpp"
-
-template<typename typC> std::ostream &operator << (std::ostream &_cout,ft::vector<typC> &_vec)
-{
-	for (int i = 0; i < _vec.size() - 1; i++)
-		_cout << _vec[i] << " ";
-	_cout << _vec[_vec.size() - 1] << std::endl;
-	return (_cout);
-}
-
-template<typename typC> std::ostream &operator << (std::ostream &_cout,std::vector<typC> &_vec)
-{
-	for (int i = 0; i < _vec.size() - 1; i++)
-		_cout << _vec[i] << " ";
-	_cout << _vec[_vec.size() - 1] << std::endl;
-	return (_cout);
-}
-
-std::string gen_random(const int len)
-{
-	srand(time(nullptr));
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    std::string tmp_s;
-    tmp_s.reserve(len);
-
-    for (int i = 0; i < len; ++i) {
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-    
-    return tmp_s;
-}
 
 template <class T>
 bool operator == (const ft::vector<T>& ft_vec, const std::vector<T>& std_vec)
@@ -1015,8 +982,8 @@ int	main()
 			for (int i  = 0; i < 1000; i++)
 			{
 				int	a = rand() % 1000;
-				ft_set.insert(ft::make_pair(a, a));
-				std_set.insert(std::make_pair(a, a));
+				ft_set.insert(a);
+				std_set.insert(a);
 			}
 			for (int i = 0; i < 100; i++)
 			{
@@ -1027,52 +994,48 @@ int	main()
 			EQUAL("Count test", (ft_vec == std_vec));
 		}
 		{
-			ft::set<int>					ft_set;
-			std::set<int>					std_set;
-			ft::vector<std::pset<int> >		ft_vec;
-			std::vector<std::pset<int> >	std_vec;
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
 	
 			srand(time(nullptr));
 			for (int i  = 0; i < 1000; i++)
 			{
 				int	a = rand() % 1000;
-				ft_set.insert(ft::make_pair(a, a));
-				std_set.insert(std::make_pair(a, a));
+				ft_set.insert(a);
+				std_set.insert(a);
 			}
 			for (int i = 0; i < 100; i++)
 			{
 				int	a = rand() % 1000;
 				if (std_set.lower_bound(a) != std_set.end())
 				{
-					ft::set<int>::iterator it = ft_set.lower_bound(a);
-					std::pset<int>	t(std::make_pair(it->first, it->second));
-					ft_vec.push_back(t);
+					ft_vec.push_back(*ft_set.lower_bound(a));
 					std_vec.push_back(*std_set.lower_bound(a));
 				}
 			}
 			EQUAL("Lowerbound test", (ft_vec == std_vec));
 		}
 		{
-			ft::set<int>					ft_set;
-			std::set<int>					std_set;
-			ft::vector<std::pset<int> >	ft_vec;
-			std::vector<std::pset<int> >	std_vec;
+			ft::set<int>		ft_set;
+			std::set<int>		std_set;
+			ft::vector<int>		ft_vec;
+			std::vector<int>	std_vec;
 	
 			srand(time(nullptr));
 			for (int i  = 0; i < 1000; i++)
 			{
 				int	a = rand() % 1000;
-				ft_set.insert(ft::make_pair(a, a));
-				std_set.insert(std::make_pair(a, a));
+				ft_set.insert(a);
+				std_set.insert(a);
 			}
 			for (int i = 0; i < 100; i++)
 			{
 				int	a = rand() % 1000;
 				if (std_set.upper_bound(a) != std_set.end())
 				{
-					ft::set<int>::iterator it = ft_set.upper_bound(a);
-					std::pset<int>	t(std::make_pair(it->first, it->second));
-					ft_vec.push_back(t);
+					ft_vec.push_back(*ft_set.upper_bound(a));
 					std_vec.push_back(*std_set.upper_bound(a));
 				}
 			}
